@@ -1,13 +1,14 @@
-#python code
-import re
+# python code
 import os
-import frida
-import time
-import sys
+import re
 import subprocess
+
+import frida
+
+
 #
 # device = frida.get_usb_device()
-# pid = device.spawn(["com.tencent.mm"])
+# pid = device.spawn(["com.ss.android.ugc.aweme"])
 # device.resume(pid)
 # time.sleep(1) #Without it Java.perform silently fails
 # session = device.attach(pid)
@@ -17,44 +18,45 @@ import subprocess
 # #prevent the python script from terminating
 # input()
 
-#python code
-def my_message_handler(message , payload): #define our handler
-    print("message: " , message)
-    print("payload: " , payload)
+# python code
+def my_message_handler(message, payload):  # define our handler
+    print("message: ", message)
+    print("payload: ", payload)
+
 
 def shell(commandv):
     print(commandv)
     # processv = os.popen(commandv)
     # outputv = processv.read()
-    print(subprocess.call(commandv,shell=True))
+    print(subprocess.call(commandv, shell=True))
     # print(outputv)
     # return outputv
 
 
-popen = os.popen('adb shell "netstat -tunlp | grep frida-server"')
+popen = os.popen('adb shell su -c "netstat -tunlp | grep frida-server"')
 readline = popen.readline()
 print(readline)
-strlist = re.split("\\s+",readline)
+strlist = re.split("\\s+", readline)
 pid = ""
 for value in strlist:
     if value.find("frida-server") != -1:
-        pid = re.split("/" ,value)[0]
+        pid = re.split("/", value)[0]
         break
 print("frida-server pid: " + pid)
-print("attach com.tencent.mm...")
-process = frida.get_usb_device().attach("com.tencent.mm")
-script= process.create_script(open("s1.js").read())
-script.on("message" , my_message_handler) #register our handler to be called
+# print("attach com.tencent.mm...")
+print("attach com.ss.android.ugc.aweme...")
+# process = frida.get_usb_device().attach("com.tencent.mm")
+process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
+script = process.create_script(open("s1.js").read())
+script.on("message", my_message_handler)  # register our handler to be called
 script.load()
 # command = sys.stdin.read()
-while 1==1 :
-    command = input("[q] for quit!\nEnter chatroom:")
-    if command == "q":
-        os.system("adb shell kill " + pid)
-        os.popen("adb shell rm /data/local/tmp/frida-server")
-        print("adb shell kill " + pid)
-        break
-    else :
-        script.exports.callsayhifunction(command)
-
-
+while 1 == 1:
+    command = input()
+    # split = command.split(" ")
+    # category = split[0]
+    # args = split[1]
+    if command == "callgetfollowlist":
+        script.exports.callgetfollowlist()
+    elif command == "callgetfollowcleanlist":
+        script.exports.callgetfollowcleanlist()
