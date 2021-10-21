@@ -44,19 +44,26 @@ for value in strlist:
         break
 print("frida-server pid: " + pid)
 # print("attach com.tencent.mm...")
-print("attach com.ss.android.ugc.aweme...")
+# print("attach com.ss.android.ugc.aweme...")
+print("attach com.alimama.moon...")
 # process = frida.get_usb_device().attach("com.tencent.mm")
-process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
+# process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
+process = frida.get_usb_device().attach("com.alimama.moon")
 script = process.create_script(open("s1.js").read())
 script.on("message", my_message_handler)  # register our handler to be called
 script.load()
-# command = sys.stdin.read()
 while 1 == 1:
-    command = input()
-    # split = command.split(" ")
-    # category = split[0]
-    # args = split[1]
+    commandStr = input()
+    split = commandStr.split(" ")
+    command = split[0]
     if command == "callgetfollowlist":
         script.exports.callgetfollowlist()
     elif command == "callgetfollowcleanlist":
         script.exports.callgetfollowcleanlist()
+        script.exports.callgetfollowlist()
+    elif command == "tbloadmore":
+        script.exports.tbloadmore(split[1])
+    elif command == "tbrefresh":
+        script.exports.tbrefresh(split[1])
+    elif command == "tbinit":
+        script.exports.tbinit()

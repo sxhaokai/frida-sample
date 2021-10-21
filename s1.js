@@ -1,16 +1,127 @@
 console.log("Script loaded successfully ");
 
+
+
 Java.perform(function () { //Silently fails without the sleep from the python code
     console.log("Inside java perform function");
 
     hookAllClickListener()
 
-    Java.use("com.ss.android.ugc.aweme.live.LiveBroadcastActivity").onCreate.implementation = function () {
-        this.onCreate.apply(this, arguments)
-        printLog("LiveBroadcastActivity onCreate")
-        hookCamera()
+    Java.use("com.alimama.moon.ui.BottomNavActivity").onResume.implementation = function () {
+        printLog("onCreate")
+
+        this.onResume.apply(this, arguments)
     };
+    // hookAllMethod("com.taobao.android.dxcontainer.DXContainerSingleRVManager")
+    // Java.use("com.taobao.android.dinamicx.DinamicXEngine").downLoadTemplates.implementation = function (x) {
+    //     this.downLoadTemplates(x)
+    //     printJson(x)
+    // };
+
+    // Java.use("com.taobao.android.dxcontainer.DXContainerSingleRVManager").refreshAll.overload("java.util.List", "java.util.List").implementation = function (x ,y) {
+    //     printLog(y.size())
+    //     this.refreshAll(x, y)
+    // };
+
+    // Java.use("com.taobao.android.dxcontainer.DXContainerSingleRVManager").setRootModel.implementation = function () {
+    //     printLog("setRootModel")
+    //     this.setRootModel.apply(this, arguments)
+    // };
+
+    // Java.use("com.taobao.android.dxcontainer.reload.DXContainerReloadUtils").traversalTree.implementation = function (x0,x1,x2,x3,x4) {
+    //     printJson(x1.getData())
+    //     printLog("traversalTree" + x2.size())
+    //     let ret = this.traversalTree.apply(this, arguments)
+    //     printLog("traversalTree" + x2.size())
+    //     return ret
+    // };
+
+    // hookAllMethod("com.alimama.union.app.billboard.BillboardCateFragment")
+    // Java.use("com.alimama.moon.view.ISPtrMoonHeaderView").onUIRefreshBegin.implementation = function () {
+    //     printLog("onUIRefreshBegin")
+    //     showStacks3()
+    //     this.onUIRefreshBegin.apply(this, arguments);
+    // };
+
+
+    // Java.use("com.alimama.unwdinamicxcontainer.presenter.dxcengine.UNWDinamicXContainerEngine").appendDataByTarget.implementation = function (x) {
+    //     // writeFile(x)
+    //
+    //     this.appendDataByTarget.apply(this, arguments)
+    // };
+
+    // Java.use("com.taobao.android.dxcontainer.reload.DXContainerReloadUtils").findLayoutExceptRoot.implementation = function (x0,x1) {
+    //     printLog(x0.getChildren().size())
+    //     printLog("traversalTree" + x1.size())
+    //     this.findLayoutExceptRoot.apply(this, arguments)
+    //     printLog("traversalTree" + x1.size())
+    // };
+
+    // Java.use("com.taobao.android.dxcontainer.DXContainerModel").addChild.implementation = function () {
+    //     printLog("addChild")
+    //     this.addChild.apply(this ,arguments)
+    // };
+
+    // hookAllMethod("com.taobao.android.dxcontainer.DXContainerModel")
+
+    // Java.use("com.taobao.android.dxcontainer.adapter.DXContainerBaseAdapter").onBindViewHolder.overload("com.taobao.android.dxcontainer.adapter.DXContainerBaseAdapter$DXCViewHolder", "int").implementation = function (x ,y) {
+    //     let data = this.findDXCModelByTotalPosition(y);
+    //     printLog(this.getData().size())
+    //     this.onBindViewHolder.apply(this, arguments)
+    // };
+
+    Java.use("com.taobao.android.dxcontainer.adapter.DXContainerBaseAdapter").setData.implementation = function (x) {
+        // if (x.size() == 100) {
+            printLog("setData: " + x.size())
+        // }
+        this.setData.apply(this, arguments)
+    };
+
+    // Java.use("com.taobao.android.dxcontainer.DXContainerEngine").setCurrentTabIndex.overload("int").implementation = function () {
+    //
+    //     let viewPager = this.tabManager.value.viewPager.value;
+    //     // let field = getField(this, "tabManager");
+    //     // let viewPager = getField(field, "viewPager")
+    //     printLog(viewPager.getClass().getName())
+    //     return this.setCurrentTabIndex.apply(this, arguments)
+    // };
+
+    // hookAllMethod("com.alimama.base.fragment.base.tabcontent.adapter.MultiTabAdapter")
+
+    Java.use("com.alimama.base.fragment.base.tabcontent.MultiTabCateFragment$2").loadMore.implementation = function () {
+        printLog("loadMore")
+        // printArgs(arguments)
+        // showStacks3()
+        this.loadMore.apply(this, arguments)
+    };
+
+    Java.use("alimama.com.unwbaseimpl.UWNUTImpl").ctrlClicked.overload('java.lang.String', 'java.lang.String', 'java.util.Map').implementation = function () {
+        printLog(arguments[0] + ", " + arguments[1] + ", " + Java.use("com.google.gson.Gson").$new().toJson(arguments[2]))
+        this.ctrlClicked.apply(this, arguments)
+    };
+
+    // hookCamera()
+
     // hookRoomInfo()
+
+
+    // hookAllMethod("com.ss.avframework.livestreamv2.LiveStream")
+    // Java.use("com.ss.avframework.livestreamv2.LiveStream").createAudioTrack.implementation = function () {
+    //     this.createAudioTrack.apply(this, arguments);
+    //     printLog(this.mAudioCapture.value.getClass().getName())
+    // };
+
+    // Java.use("com.ss.avframework.livestreamv2.core.LiveCoreImpl").onAudioFrameAvailable.implementation = function () {
+    //     this.onAudioFrameAvailable.apply(this, arguments)
+    // };
+
+    // hookAllMethod("com.ss.avframework.livestreamv2.capture.CameraVideoCapturer")
+    // hookAllMethod("com.ss.avframework.livestreamv2.AudioFrameAvailableSink")
+    // hookAllMethod("com.ss.avframework.livestreamv2.core.LiveCoreImpl")
+    // hookAllMethod("com.ss.avframework.livestreamv2.LiveStream")
+    // hookAllMethod("com.ss.avframework.livestreamv2.InputAudioStream")
+    // hookAllMethod("com.ss.avframework.livestreamv2.capture.AudioCapturerExternal")
+    // hookAllMethod("com.ss.avframework.engine.AudioDeviceModule")
 
 
     // hookAllMethod("com.ss.android.ugc.aweme.live.LivePlayActivity")
@@ -32,8 +143,20 @@ Java.perform(function () { //Silently fails without the sleep from the python co
 
     //日志
     // hookAllMethod("com.ss.avframework.utils.AVLog")
-    // hookAllMethod("com.ss.android.ttvecamera.t")
+    // hookAllMethod("com.ss.android.ttvecamera.s")
 });
+
+let BottomNavActivity
+
+function saveAs(file) {
+
+}
+
+function writeFile(s) {
+
+    let  file =  new  File([s],  "tmp.json" , { type:  "text/plain;charset=utf-8"  });
+    saveAs(file);
+}
 
 function printLog(str) {
     console.log("=>" + str)
@@ -66,10 +189,10 @@ function setField(obj, fieldName, value) {
 
 function hookCamera() {
 
-    Java.use("com.bytedance.android.live.broadcast.widget.StartLiveWidget").a.overload().implementation = function (){
-        printLog("开始直播")
-        return this.a.apply(this, arguments)
-    }
+    // Java.use("com.bytedance.android.live.broadcast.widget.StartLiveWidget").a.overload().implementation = function (){
+    //     printLog("开始直播")
+    //     return this.a.apply(this, arguments)
+    // }
 
     //!!! 替换相机 视频流，播放本地视频
     Java.use("android.hardware.Camera").setPreviewTexture.implementation = function (x) {
@@ -145,6 +268,119 @@ function hookRoomInfo() {
         }
         return ret
     };
+}
+
+/**
+ * alimama LoadMore
+ */
+function tbLoadMore(rvIndex) {
+    printLog("tbLoadMore")
+    Java.perform(function () {
+        Java.choose("com.alimama.moon.ui.BottomNavActivity",{
+            onMatch: function(instance){
+                let intRvIndex = Java.use("java.lang.Integer").valueOf(rvIndex).intValue();
+                let adapter = instance.adapter.value;
+                let billboardFragment = adapter.fragmentManager.value.findFragmentByTag(adapter.fragmentTagMap.value.get(Java.use("java.lang.Integer").valueOf(1)));
+
+                let billboardFragmentParent = Java.cast(billboardFragment, Java.use("com.alimama.base.fragment.base.tabcontent.MultiTabFragment"));
+                let viewPagerId = billboardFragmentParent.vpContainer.value.getId();
+                // printLog(viewPagerId)
+                let tagAllFragment = billboardFragmentParent.getChildFragmentManager().findFragmentByTag("android:switcher:"+viewPagerId+":0");
+                // printLog(billboardFragment.getClass().getName())
+                // printLog(tagAllFragment.getClass().getName())
+
+                let UNWBaseDXFragment = Java.cast(tagAllFragment, Java.use("com.alimama.base.fragment.base.UNWBaseDXFragment"))
+                let innerViewPager = UNWBaseDXFragment.mUNWDinamicXContainerEngine.value.mDXContainerEngine.value
+                    .tabManager.value.viewPager.value
+                // printLog(innerViewPager.getClass().getName())
+                let DXContainerViewPager = Java.cast(innerViewPager, Java.use("com.taobao.android.dxcontainer.DXContainerViewPager"));
+                DXContainerViewPager.setCurrentItem(intRvIndex)
+
+                let rvAdapter = Java.cast(DXContainerViewPager.engineHashMap.value.get(intRvIndex), Java.use("com.taobao.android.dxcontainer.DXContainerSingleRVManager")).adapter.value;
+                // printLog(rvAdapter.getClass().getName())
+                rvAdapter.preLoadMore(99, Java.use("java.lang.Integer").valueOf(rvIndex))
+            },
+            onComplete: function(){
+            }
+        });
+    })
+
+}
+/**
+ * alimama refresh
+ */
+function tbRefresh(rvIndex) {
+    printLog("tbRefresh")
+    Java.perform(function () {
+        Java.choose("com.alimama.moon.ui.BottomNavActivity",{
+            onMatch: function(instance){
+                let intRvIndex = Java.use("java.lang.Integer").valueOf(rvIndex).intValue();
+                let adapter = instance.adapter.value;
+                let billboardFragment = adapter.fragmentManager.value.findFragmentByTag(adapter.fragmentTagMap.value.get(Java.use("java.lang.Integer").valueOf(1)));
+
+                let billboardFragmentParent = Java.cast(billboardFragment, Java.use("com.alimama.base.fragment.base.tabcontent.MultiTabFragment"));
+                let viewPagerId = billboardFragmentParent.vpContainer.value.getId();
+                let tagAllFragment = billboardFragmentParent.getChildFragmentManager().findFragmentByTag("android:switcher:"+viewPagerId+":0");
+
+                let UNWBaseDXFragment = Java.cast(tagAllFragment, Java.use("com.alimama.base.fragment.base.UNWBaseDXFragment"))
+                let innerViewPager = UNWBaseDXFragment.mUNWDinamicXContainerEngine.value.mDXContainerEngine.value
+                    .tabManager.value.viewPager.value
+                let DXContainerViewPager = Java.cast(innerViewPager, Java.use("com.taobao.android.dxcontainer.DXContainerViewPager"));
+                DXContainerViewPager.setCurrentItem(intRvIndex)
+
+                let MultiTabCateFragment = Java.cast(tagAllFragment, Java.use("com.alimama.base.fragment.base.tabcontent.MultiTabCateFragment"))
+                let ptrFramelayout = MultiTabCateFragment.mPtrFrameLayout.value;
+                let mPtrHandler = Java.cast(ptrFramelayout.mPtrHandler.value, Java.use("in.srain.cube.ptr.PtrHandler"))
+                mPtrHandler.onRefreshBegin(ptrFramelayout)
+            },
+            onComplete: function(){
+            }
+        });
+    })
+
+    // Java.perform(function () {
+    //     let service = Java.use("alimama.com.unwbase.UNWManager").getInstance().getService(Java.use("alimama.com.unwbase.interfaces.IUTAction").class);
+    //     let serviceImpl = Java.cast(service, Java.use("alimama.com.unwbaseimpl.UWNUTImpl"));
+    //     let hashMap = Java.use("java.util.HashMap").$new();
+    //     hashMap.put("tabKey", "2hour")
+    //     hashMap.put("navkey", "all")
+    //     // hashMap.put("pageNum", "1")
+    //     serviceImpl.ctrlClicked("Page_Billboard","refresh",hashMap)
+    // })
+}
+
+/**
+ * alimama init
+ */
+function tbinit() {
+    printLog("tbinit")
+    Java.perform(function () {
+        Java.choose("com.alimama.moon.ui.BottomNavActivity",{
+            onMatch: function(instance){
+                instance.onClickBottomNavItem("billBoard")
+
+                let adapter = instance.adapter.value;
+                let billboardFragment = adapter.fragmentManager.value.findFragmentByTag(adapter.fragmentTagMap.value.get(Java.use("java.lang.Integer").valueOf(1)));
+
+                let billboardFragmentParent = Java.cast(billboardFragment, Java.use("com.alimama.base.fragment.base.tabcontent.MultiTabFragment"));
+                let viewPagerId = billboardFragmentParent.vpContainer.value.getId();
+                let tagAllFragment = billboardFragmentParent.getChildFragmentManager().findFragmentByTag("android:switcher:"+viewPagerId+":0");
+
+                let UNWBaseDXFragment = Java.cast(tagAllFragment, Java.use("com.alimama.base.fragment.base.UNWBaseDXFragment"))
+                let innerViewPager = UNWBaseDXFragment.mUNWDinamicXContainerEngine.value.mDXContainerEngine.value
+                    .tabManager.value.viewPager.value
+                let DXContainerViewPager = Java.cast(innerViewPager, Java.use("com.taobao.android.dxcontainer.DXContainerViewPager"));
+                DXContainerViewPager.setCurrentItem(0)
+                DXContainerViewPager.setCurrentItem(1)
+                DXContainerViewPager.setCurrentItem(2)
+                DXContainerViewPager.setCurrentItem(3)
+                DXContainerViewPager.setCurrentItem(0)
+            },
+            onComplete: function(){
+            }
+        });
+    })
+
 }
 
 /**
@@ -335,5 +571,8 @@ rpc.exports = {
     callgetfollowlist: getFollowList,
     callgetfollowcleanlist: getFollowCleanList,
     callchatinroom: chatInRoom,
+    tbloadmore: tbLoadMore,
+    tbrefresh: tbRefresh,
+    tbinit: tbinit,
 
 };
