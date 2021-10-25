@@ -1,149 +1,35 @@
 console.log("Script loaded successfully ");
 
-
-
 Java.perform(function () { //Silently fails without the sleep from the python code
     console.log("Inside java perform function");
 
     hookAllClickListener()
 
-    Java.use("com.alimama.moon.ui.BottomNavActivity").onResume.implementation = function () {
-        printLog("onCreate")
+    Java.enumerateClassLoaders({
+        onMatch: function (loader) {
+            try {
+                if (loader.findClass("com.common.model.Entities.DB")) {
+                    printLog("loader find: " + loader);
+                    Java.classFactory.loader = loader;
 
-        this.onResume.apply(this, arguments)
-    };
-    // hookAllMethod("com.taobao.android.dxcontainer.DXContainerSingleRVManager")
-    // Java.use("com.taobao.android.dinamicx.DinamicXEngine").downLoadTemplates.implementation = function (x) {
-    //     this.downLoadTemplates(x)
-    //     printJson(x)
-    // };
+                    hook()
+                }
+            } catch (error) {
+                // printLog(error)
+            }
+        }, onComplete: function () {
 
-    // Java.use("com.taobao.android.dxcontainer.DXContainerSingleRVManager").refreshAll.overload("java.util.List", "java.util.List").implementation = function (x ,y) {
-    //     printLog(y.size())
-    //     this.refreshAll(x, y)
-    // };
+        }
+    });
 
-    // Java.use("com.taobao.android.dxcontainer.DXContainerSingleRVManager").setRootModel.implementation = function () {
-    //     printLog("setRootModel")
-    //     this.setRootModel.apply(this, arguments)
-    // };
-
-    // Java.use("com.taobao.android.dxcontainer.reload.DXContainerReloadUtils").traversalTree.implementation = function (x0,x1,x2,x3,x4) {
-    //     printJson(x1.getData())
-    //     printLog("traversalTree" + x2.size())
-    //     let ret = this.traversalTree.apply(this, arguments)
-    //     printLog("traversalTree" + x2.size())
-    //     return ret
-    // };
-
-    // hookAllMethod("com.alimama.union.app.billboard.BillboardCateFragment")
-    // Java.use("com.alimama.moon.view.ISPtrMoonHeaderView").onUIRefreshBegin.implementation = function () {
-    //     printLog("onUIRefreshBegin")
-    //     showStacks3()
-    //     this.onUIRefreshBegin.apply(this, arguments);
-    // };
+    function hook() {
+        Java.use("com.common.util.CommonLog").log.implementation = function (x, y) {
+            printLog(x + y.toString())
+            this.log.apply(this, arguments)
+        };
+    }
 
 
-    // Java.use("com.alimama.unwdinamicxcontainer.presenter.dxcengine.UNWDinamicXContainerEngine").appendDataByTarget.implementation = function (x) {
-    //     // writeFile(x)
-    //
-    //     this.appendDataByTarget.apply(this, arguments)
-    // };
-
-    // Java.use("com.taobao.android.dxcontainer.reload.DXContainerReloadUtils").findLayoutExceptRoot.implementation = function (x0,x1) {
-    //     printLog(x0.getChildren().size())
-    //     printLog("traversalTree" + x1.size())
-    //     this.findLayoutExceptRoot.apply(this, arguments)
-    //     printLog("traversalTree" + x1.size())
-    // };
-
-    // Java.use("com.taobao.android.dxcontainer.DXContainerModel").addChild.implementation = function () {
-    //     printLog("addChild")
-    //     this.addChild.apply(this ,arguments)
-    // };
-
-    // hookAllMethod("com.taobao.android.dxcontainer.DXContainerModel")
-
-    // Java.use("com.taobao.android.dxcontainer.adapter.DXContainerBaseAdapter").onBindViewHolder.overload("com.taobao.android.dxcontainer.adapter.DXContainerBaseAdapter$DXCViewHolder", "int").implementation = function (x ,y) {
-    //     let data = this.findDXCModelByTotalPosition(y);
-    //     printLog(this.getData().size())
-    //     this.onBindViewHolder.apply(this, arguments)
-    // };
-
-    Java.use("com.taobao.android.dxcontainer.adapter.DXContainerBaseAdapter").setData.implementation = function (x) {
-        // if (x.size() == 100) {
-            printLog("setData: " + x.size())
-        // }
-        this.setData.apply(this, arguments)
-    };
-
-    // Java.use("com.taobao.android.dxcontainer.DXContainerEngine").setCurrentTabIndex.overload("int").implementation = function () {
-    //
-    //     let viewPager = this.tabManager.value.viewPager.value;
-    //     // let field = getField(this, "tabManager");
-    //     // let viewPager = getField(field, "viewPager")
-    //     printLog(viewPager.getClass().getName())
-    //     return this.setCurrentTabIndex.apply(this, arguments)
-    // };
-
-    // hookAllMethod("com.alimama.base.fragment.base.tabcontent.adapter.MultiTabAdapter")
-
-    Java.use("com.alimama.base.fragment.base.tabcontent.MultiTabCateFragment$2").loadMore.implementation = function () {
-        printLog("loadMore")
-        // printArgs(arguments)
-        // showStacks3()
-        this.loadMore.apply(this, arguments)
-    };
-
-    Java.use("alimama.com.unwbaseimpl.UWNUTImpl").ctrlClicked.overload('java.lang.String', 'java.lang.String', 'java.util.Map').implementation = function () {
-        printLog(arguments[0] + ", " + arguments[1] + ", " + Java.use("com.google.gson.Gson").$new().toJson(arguments[2]))
-        this.ctrlClicked.apply(this, arguments)
-    };
-
-    // hookCamera()
-
-    // hookRoomInfo()
-
-
-    // hookAllMethod("com.ss.avframework.livestreamv2.LiveStream")
-    // Java.use("com.ss.avframework.livestreamv2.LiveStream").createAudioTrack.implementation = function () {
-    //     this.createAudioTrack.apply(this, arguments);
-    //     printLog(this.mAudioCapture.value.getClass().getName())
-    // };
-
-    // Java.use("com.ss.avframework.livestreamv2.core.LiveCoreImpl").onAudioFrameAvailable.implementation = function () {
-    //     this.onAudioFrameAvailable.apply(this, arguments)
-    // };
-
-    // hookAllMethod("com.ss.avframework.livestreamv2.capture.CameraVideoCapturer")
-    // hookAllMethod("com.ss.avframework.livestreamv2.AudioFrameAvailableSink")
-    // hookAllMethod("com.ss.avframework.livestreamv2.core.LiveCoreImpl")
-    // hookAllMethod("com.ss.avframework.livestreamv2.LiveStream")
-    // hookAllMethod("com.ss.avframework.livestreamv2.InputAudioStream")
-    // hookAllMethod("com.ss.avframework.livestreamv2.capture.AudioCapturerExternal")
-    // hookAllMethod("com.ss.avframework.engine.AudioDeviceModule")
-
-
-    // hookAllMethod("com.ss.android.ugc.aweme.live.LivePlayActivity")
-    // hookAllMethod("com.bytedance.android.live.core.a.a")//日志
-    // Java.use("com.bytedance.retrofit2.intercept.RealInterceptorChain").RealInterceptorChain__proceed$___twin___.implementation = function (x) {
-    //     printLog("url: " + x.getUrl())
-    //     return this.RealInterceptorChain__proceed$___twin___(x);
-    // };
-
-
-
-
-    //打印网络请求
-    // Java.use("com.bytedance.retrofit2.SsHttpCall$1").callSuccess.implementation = function (p) {
-    //     printLog(getField(getField(getField(this, "this$0"), "originalRequest"), "url"))
-    //     printJson(getField(p, "body"))
-    //     return this.callSuccess(p)
-    // }
-
-    //日志
-    // hookAllMethod("com.ss.avframework.utils.AVLog")
-    // hookAllMethod("com.ss.android.ttvecamera.s")
 });
 
 let BottomNavActivity
@@ -154,7 +40,7 @@ function saveAs(file) {
 
 function writeFile(s) {
 
-    let  file =  new  File([s],  "tmp.json" , { type:  "text/plain;charset=utf-8"  });
+    let file = new File([s], "tmp.json", {type: "text/plain;charset=utf-8"});
     saveAs(file);
 }
 
@@ -197,7 +83,7 @@ function hookCamera() {
     //!!! 替换相机 视频流，播放本地视频
     Java.use("android.hardware.Camera").setPreviewTexture.implementation = function (x) {
         printLog("setPreviewTexture")
-        let mPlayer =  Java.use("android.media.MediaPlayer").$new();
+        let mPlayer = Java.use("android.media.MediaPlayer").$new();
         mPlayer.setSurface(Java.use("android.view.Surface").$new(x));
         mPlayer.setAudioStreamType(3);
         mPlayer.setDataSource("/sdcard/a.mp4");
@@ -276,8 +162,8 @@ function hookRoomInfo() {
 function tbLoadMore(rvIndex) {
     printLog("tbLoadMore")
     Java.perform(function () {
-        Java.choose("com.alimama.moon.ui.BottomNavActivity",{
-            onMatch: function(instance){
+        Java.choose("com.alimama.moon.ui.BottomNavActivity", {
+            onMatch: function (instance) {
                 let intRvIndex = Java.use("java.lang.Integer").valueOf(rvIndex).intValue();
                 let adapter = instance.adapter.value;
                 let billboardFragment = adapter.fragmentManager.value.findFragmentByTag(adapter.fragmentTagMap.value.get(Java.use("java.lang.Integer").valueOf(1)));
@@ -285,7 +171,7 @@ function tbLoadMore(rvIndex) {
                 let billboardFragmentParent = Java.cast(billboardFragment, Java.use("com.alimama.base.fragment.base.tabcontent.MultiTabFragment"));
                 let viewPagerId = billboardFragmentParent.vpContainer.value.getId();
                 // printLog(viewPagerId)
-                let tagAllFragment = billboardFragmentParent.getChildFragmentManager().findFragmentByTag("android:switcher:"+viewPagerId+":0");
+                let tagAllFragment = billboardFragmentParent.getChildFragmentManager().findFragmentByTag("android:switcher:" + viewPagerId + ":0");
                 // printLog(billboardFragment.getClass().getName())
                 // printLog(tagAllFragment.getClass().getName())
 
@@ -300,27 +186,28 @@ function tbLoadMore(rvIndex) {
                 // printLog(rvAdapter.getClass().getName())
                 rvAdapter.preLoadMore(99, Java.use("java.lang.Integer").valueOf(rvIndex))
             },
-            onComplete: function(){
+            onComplete: function () {
             }
         });
     })
 
 }
+
 /**
  * alimama refresh
  */
 function tbRefresh(rvIndex) {
     printLog("tbRefresh")
     Java.perform(function () {
-        Java.choose("com.alimama.moon.ui.BottomNavActivity",{
-            onMatch: function(instance){
+        Java.choose("com.alimama.moon.ui.BottomNavActivity", {
+            onMatch: function (instance) {
                 let intRvIndex = Java.use("java.lang.Integer").valueOf(rvIndex).intValue();
                 let adapter = instance.adapter.value;
                 let billboardFragment = adapter.fragmentManager.value.findFragmentByTag(adapter.fragmentTagMap.value.get(Java.use("java.lang.Integer").valueOf(1)));
 
                 let billboardFragmentParent = Java.cast(billboardFragment, Java.use("com.alimama.base.fragment.base.tabcontent.MultiTabFragment"));
                 let viewPagerId = billboardFragmentParent.vpContainer.value.getId();
-                let tagAllFragment = billboardFragmentParent.getChildFragmentManager().findFragmentByTag("android:switcher:"+viewPagerId+":0");
+                let tagAllFragment = billboardFragmentParent.getChildFragmentManager().findFragmentByTag("android:switcher:" + viewPagerId + ":0");
 
                 let UNWBaseDXFragment = Java.cast(tagAllFragment, Java.use("com.alimama.base.fragment.base.UNWBaseDXFragment"))
                 let innerViewPager = UNWBaseDXFragment.mUNWDinamicXContainerEngine.value.mDXContainerEngine.value
@@ -333,7 +220,7 @@ function tbRefresh(rvIndex) {
                 let mPtrHandler = Java.cast(ptrFramelayout.mPtrHandler.value, Java.use("in.srain.cube.ptr.PtrHandler"))
                 mPtrHandler.onRefreshBegin(ptrFramelayout)
             },
-            onComplete: function(){
+            onComplete: function () {
             }
         });
     })
@@ -355,8 +242,8 @@ function tbRefresh(rvIndex) {
 function tbinit() {
     printLog("tbinit")
     Java.perform(function () {
-        Java.choose("com.alimama.moon.ui.BottomNavActivity",{
-            onMatch: function(instance){
+        Java.choose("com.alimama.moon.ui.BottomNavActivity", {
+            onMatch: function (instance) {
                 instance.onClickBottomNavItem("billBoard")
 
                 let adapter = instance.adapter.value;
@@ -364,7 +251,7 @@ function tbinit() {
 
                 let billboardFragmentParent = Java.cast(billboardFragment, Java.use("com.alimama.base.fragment.base.tabcontent.MultiTabFragment"));
                 let viewPagerId = billboardFragmentParent.vpContainer.value.getId();
-                let tagAllFragment = billboardFragmentParent.getChildFragmentManager().findFragmentByTag("android:switcher:"+viewPagerId+":0");
+                let tagAllFragment = billboardFragmentParent.getChildFragmentManager().findFragmentByTag("android:switcher:" + viewPagerId + ":0");
 
                 let UNWBaseDXFragment = Java.cast(tagAllFragment, Java.use("com.alimama.base.fragment.base.UNWBaseDXFragment"))
                 let innerViewPager = UNWBaseDXFragment.mUNWDinamicXContainerEngine.value.mDXContainerEngine.value
@@ -376,11 +263,38 @@ function tbinit() {
                 DXContainerViewPager.setCurrentItem(3)
                 DXContainerViewPager.setCurrentItem(0)
             },
-            onComplete: function(){
+            onComplete: function () {
             }
         });
     })
 
+}
+
+let logcat = false
+
+/**
+ * mmtask
+ */
+function mmtask() {
+    printLog("mmtask")
+    Java.perform(function () {
+        logcat = true
+        let id = 20211021
+        let json = '{"type":100, "toUsernames":["wxid_v67e7gwhwopq22"], "weChatMsgType":1, "content":"@#$%%😂"}'
+
+        let sunTask = Java.cast(Java.use("com.google.gson.Gson").$new().fromJson(json, Java.classFactory.use("com.baijia.storm.sun.api.common.model.SunTask").class), Java.classFactory.use("com.baijia.storm.sun.api.common.model.SunTask"));
+        sunTask.id.value = Java.use("java.lang.Long").$new(id)
+        printLog(sunTask.id.value)
+        Java.use("com.common.model.Entities.DB")
+            .getSeDataBase()
+            .sunTaskDao()
+            .insert(Java.classFactory.use("com.common.model.Entities.SunTaskEntity").$new(sunTask))
+        printLog("sleep start")
+        Thread.sleep(3)
+        printLog("sleep end")
+        logcat = false
+
+    })
 }
 
 /**
@@ -436,7 +350,7 @@ function chatInRoom() {
         }
     })
     let fetchFollowingCleanList = Java.use("com.bytedance.android.livesdk.service.i").k().b().a(Java.use("com.bytedance.android.livesdk.chatroom.api.RoomRetrofitApi").getClass())
-        .sendTextMessage(Java.use("com.bytedance.android.livesdk.chatroom.bl.j").b("999", 7003591587318287000, 0, "202109031459170101351432010B1EB2B7", null,""))
+        .sendTextMessage(Java.use("com.bytedance.android.livesdk.chatroom.bl.j").b("999", 7003591587318287000, 0, "202109031459170101351432010B1EB2B7", null, ""))
         .compose(Java.use("com.bytedance.android.live.core.rxutils.r").c()).subscribe(consumerImpl.$new())
 
     Java.use("io.reactivex.disposables.CompositeDisposable").$new().add(fetchFollowingCleanList)
@@ -462,8 +376,7 @@ function hookAllMethod(className) {
     let cls = Java.use(className);
     let mhd_array = cls.class.getDeclaredMethods();
 
-    for (let i = 0; i < mhd_array.length; i++)
-    {
+    for (let i = 0; i < mhd_array.length; i++) {
         let mhd_cur = mhd_array[i];
         let str_mhd_name = mhd_cur.getName()
         let pClazzNames = []
@@ -480,14 +393,15 @@ function hookAllMethod(className) {
                 if (typeof (arguments[j]) === "object" && arguments[j] != null) {
                     try {
                         str = Java.use("com.google.gson.Gson").$new().toJson(arguments[j])
-                    } catch (error){}
+                    } catch (error) {
+                    }
                 }
                 args += str + ", "
             }
             console.log("hooked method: " + str_mhd_name + (args === "" ? "" : ", " + args))
             return this[str_mhd_name].apply(this, arguments)
         }
-            // getGenericInterceptor(className, str_mhd_name, pClazzNames.length)
+        // getGenericInterceptor(className, str_mhd_name, pClazzNames.length)
     }
 }
 
@@ -563,9 +477,8 @@ function showStacks3() {
 }
 
 
-
 rpc.exports = {
-    callsayhifunction: sayhi ,//exporting callSecretFun as callsecretfunction
+    callsayhifunction: sayhi,//exporting callSecretFun as callsecretfunction
     // the name of the export (callsecretfunction) cannot have  neither Uppercase letter nor uderscores.
     // callsayhifunction: sayhi
     callgetfollowlist: getFollowList,
@@ -574,5 +487,6 @@ rpc.exports = {
     tbloadmore: tbLoadMore,
     tbrefresh: tbRefresh,
     tbinit: tbinit,
+    mmtask: mmtask,
 
 };
