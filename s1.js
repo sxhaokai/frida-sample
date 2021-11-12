@@ -3,33 +3,46 @@ console.log("Script loaded successfully ");
 Java.perform(function () { //Silently fails without the sleep from the python code
     console.log("Inside java perform function");
 
-    hookAllClickListener()
-
-    Java.enumerateClassLoaders({
-        onMatch: function (loader) {
-            try {
-                if (loader.findClass("com.common.model.Entities.DB")) {
-                    printLog("loader find: " + loader);
-                    Java.classFactory.loader = loader;
-
-                    hook()
-                }
-            } catch (error) {
-                // printLog(error)
-            }
-        }, onComplete: function () {
-
-        }
-    });
-
-    function hook() {
-        Java.use("com.common.util.CommonLog").log.implementation = function (x, y) {
-            printLog(x + y.toString())
-            this.log.apply(this, arguments)
-        };
-    }
+    // hookAllClickListener()
 
 
+    // hookAllMethod("com.smzdm.client.base.utils.wb")
+
+    // Java.use("com.smzdm.client.base.utils.wb").b.implementation = function () {
+    //     if (arguments[0] === "PreloadManger" && !arguments[1].startsWith("{")) {
+    //         printLog(arguments[0] + ", " + arguments[1])
+    //     }
+    //     this.b.apply(this, arguments)
+    // };
+
+    // Java.use("com.smzdm.client.android.app.HomeActivity").onResume.implementation = function () {
+    //     printLog("onResume")
+    //     this.onResume.apply(this, arguments)
+    // };
+
+
+    Java.use("e.e.b.a.k.a.a").a.overload("java.util.List").implementation = function () {
+        printLog("a")
+        // showStacks3()
+        this.a.apply(this, arguments)
+    };
+    Java.use("e.e.b.a.k.a.a").b.overload("java.util.List").implementation = function () {
+        printLog("b")
+        this.b.apply(this, arguments)
+    };
+
+    // Java.use("androidx.recyclerview.widget.RecyclerView$a").bindViewHolder.implementation = function () {
+    //     printLog("bindViewHolder:" + this.getClass().getName())
+    //     this.bindViewHolder.apply(this, arguments)
+    // };
+
+    Java.use("e.e.b.a.o.d").a
+        .overload("java.lang.String", "java.util.Map", "java.lang.Class", "e.e.b.a.o.c")
+        .implementation = function () {
+        printLog(arguments[0])
+        printJson(arguments[1])
+        this.a.apply(this, arguments)
+    };
 });
 
 let BottomNavActivity
@@ -273,6 +286,44 @@ function tbinit() {
 let logcat = false
 
 /**
+ * refreshsmzdm
+ */
+function refreshsmzdm() {
+    printLog("refreshsmzdm")
+    Java.perform(function () {
+
+        var callback = Java.registerClass({
+            name: 'f.a.k.callback1',
+            implements: [Java.use("f.a.k")],
+            methods: {
+                a: function () {
+                    console.log("callback.a")
+                    return false
+                },
+                onComplete: function () {
+                    console.log("callback.onComplete")
+                },
+                onError: function (t) {
+                    console.log("callback.onError")
+                },
+                onNext: function (o) {
+                    console.log("callback.onNext")
+                    printJson(o)
+                },
+            }
+        })
+        Java.use("e.e.b.a.o.d")
+            .a("https://haojia-api.smzdm.com/home/list",
+                Java.use("com.google.gson.Gson")
+                    .$new()
+                    .fromJson("{\"haojia_title_abtest\":\"a\",\"price_lt\":\"\",\"is_cache\":\"1\",\"manual_sort\":\"\",\"need_default_tab_float2\":\"0\",\"mall_ids\":\"\",\"hour\":\"\",\"past_num\":\"0\",\"haojia_new_list\":\"b\",\"banner_log\":\"\",\"limit\":\"20\",\"ab_test\":\"a\",\"tag_id\":\"\",\"price_gt\":\"\",\"category_ids\":\"\",\"page\":\"1\",\"order\":\"recommend\",\"time_sort\":\"\"}", Java.use("java.util.Map").class),
+                Java.use("com.smzdm.client.android.module.haojia.home.bean.HaojiaHomeBean").class,
+                Java.use("com.smzdm.client.android.i.a.b.h").$new(null, callback.$new())
+                )
+    })
+}
+
+/**
  * mmtask
  */
 function mmtask() {
@@ -388,16 +439,16 @@ function hookAllMethod(className) {
         let method = cls[str_mhd_name];
         method.overload.apply(method, pClazzNames).implementation = function () {
             let args = ""
-            for (let j = 0; j < arguments.length; j++) {
-                let str = arguments[j]
-                if (typeof (arguments[j]) === "object" && arguments[j] != null) {
-                    try {
-                        str = Java.use("com.google.gson.Gson").$new().toJson(arguments[j])
-                    } catch (error) {
-                    }
-                }
-                args += str + ", "
-            }
+            // for (let j = 0; j < arguments.length; j++) {
+            //     let str = arguments[j]
+            //     if (typeof (arguments[j]) === "object" && arguments[j] != null) {
+            //         try {
+            //             str = Java.use("com.google.gson.Gson").$new().toJson(arguments[j])
+            //         } catch (error) {
+            //         }
+            //     }
+            //     args += str + ", "
+            // }
             console.log("hooked method: " + str_mhd_name + (args === "" ? "" : ", " + args))
             return this[str_mhd_name].apply(this, arguments)
         }
@@ -488,5 +539,6 @@ rpc.exports = {
     tbrefresh: tbRefresh,
     tbinit: tbinit,
     mmtask: mmtask,
+    refreshsmzdm: refreshsmzdm,
 
 };
