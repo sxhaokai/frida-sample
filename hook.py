@@ -1,6 +1,7 @@
 # python code
 import os
 import re
+import time
 import subprocess
 
 import frida
@@ -43,11 +44,21 @@ for value in strlist:
         pid = re.split("/", value)[0]
         break
 print("frida-server pid: " + pid)
-print("attach com.smzdm.client.android...")
 # print("attach com.tencent.mm...")
 # print("attach com.ss.android.ugc.aweme...")
 # print("attach com.alimama.moon...")
+
+print("attach com.smzdm.client.android...")
 process = frida.get_usb_device().attach("com.smzdm.client.android")
+
+# while True:
+#     try:
+#         print("attach com.smzdm.client.android...")
+#         process = frida.get_usb_device().attach("com.smzdm.client.android")
+#         break
+#     except:
+#         time.sleep(1)
+
 # process = frida.get_usb_device().attach("com.tencent.mm")
 # process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
 # process = frida.get_usb_device().attach("com.alimama.moon")
@@ -73,3 +84,11 @@ while 1 == 1:
         script.exports.mmtask()
     elif command == "refreshsmzdm":
         script.exports.refreshsmzdm()
+    elif command == "test":
+        script.exports.test()
+    elif command == "test1":
+        script.exports.test1()
+    elif command == "test2":
+        script.exports.test2()
+    elif command == "test3":
+        script.exports.test3()

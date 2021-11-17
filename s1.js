@@ -20,29 +20,29 @@ Java.perform(function () { //Silently fails without the sleep from the python co
     //     this.onResume.apply(this, arguments)
     // };
 
-
-    Java.use("e.e.b.a.k.a.a").a.overload("java.util.List").implementation = function () {
-        printLog("a")
-        // showStacks3()
-        this.a.apply(this, arguments)
-    };
-    Java.use("e.e.b.a.k.a.a").b.overload("java.util.List").implementation = function () {
-        printLog("b")
-        this.b.apply(this, arguments)
+    Java.use("e.e.b.a.o.a.a").a.overload("java.util.Map", "java.lang.String").implementation = function (x, y) {
+        printJson(x)
+        return this.a.apply(this, arguments)
     };
 
-    // Java.use("androidx.recyclerview.widget.RecyclerView$a").bindViewHolder.implementation = function () {
-    //     printLog("bindViewHolder:" + this.getClass().getName())
-    //     this.bindViewHolder.apply(this, arguments)
+    Java.use("com.smzdm.client.base.utils.Qa").a.overload("java.lang.String").implementation = function (x) {
+        printLog(x)
+        return this.a.apply(this, arguments)
+    };
+
+    //http log
+    // Java.use("com.smzdm.common.db.preload.c").log.implementation = function (x) {
+    //     printLog(x)
+    //     this.log.apply(this, arguments)
     // };
 
-    Java.use("e.e.b.a.o.d").a
-        .overload("java.lang.String", "java.util.Map", "java.lang.Class", "e.e.b.a.o.c")
-        .implementation = function () {
-        printLog(arguments[0])
-        printJson(arguments[1])
-        this.a.apply(this, arguments)
-    };
+    // Java.use("e.e.b.a.o.d").a
+    //     .overload("java.lang.String", "java.util.Map", "java.lang.Class", "e.e.b.a.o.c")
+    //     .implementation = function () {
+    //     printLog(arguments[0])
+    //     printJson(arguments[1])
+    //     this.a.apply(this, arguments)
+    // };
 });
 
 let BottomNavActivity
@@ -324,6 +324,72 @@ function refreshsmzdm() {
 }
 
 /**
+ * test1
+ */
+function test1() {
+    printLog("test1")
+    Java.perform(function () {
+        let map = Java.use("java.util.HashMap").$new();
+        map.put("p1", "p1v")
+        // map.put("p2", "p2v")
+        let d = Java.use("e.e.b.a.o.a.a").$new().a(map, "GET");
+        printLog(d)
+    })
+}
+
+/**
+ * zdm_key
+ */
+function test() {
+    printLog("test")
+    Java.perform(function () {
+        let map = Java.use("com.smzdm.client.base.utils.ZDMKeyUtil").$new();
+        let d = map.b();
+        printLog(d)
+    })
+}
+
+/**
+ * 什么值得买 sign 算法：params按key排序,其中time需要是最近的时间，不然无法请求， key=value用&拼接，最后拼接&key=XX, XX从native code中获取 为 apr1$AwP!wRRT$gJ/q.X24poeBInlUJC
+ * 拼接好的字符串进行下面的运算，算法为md5之后的byte[], 对每个byte进行两次不同运算，map到新的byte[]中的两个连续位置，新的byte[].length为旧的2倍，
+ * 最后求新byte[]的String，全大写输出
+ */
+function test2() {
+    printLog("test2")
+    Java.perform(function () {
+        let charList = Java.array('char', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'])
+        let str = Java.use("java.lang.String").$new("ab_test=h&f=android&haojia_new_list=b&haojia_title_abtest=b&is_cache=1&limit=20&need_default_tab_float2=0&order=recommend&page=1&past_num=0&time=1637149993000&v=10.2.0&weixin=1&key=apr1$AwP!wRRT$gJ/q.X24poeBInlUJC")
+        let bytes = str.getBytes();
+        let instance = Java.use("java.security.MessageDigest").getInstance("MD5");
+        instance.update(bytes);
+        let array = new Array(bytes.length * 2);
+        array.fill('')
+        let arrayList = Java.array('char', array);
+        let i2 = 0;
+        let byteArray = instance.digest();
+        for (let i = 0; i < byteArray.length; i++) {
+            let b2 = byteArray[i]
+            arrayList[i2] = charList[(b2 >>> 4) & 15];
+            arrayList[i2 + 1] = charList[b2 & 15];
+            i2 ++
+            i2 ++
+        }
+        let result = Java.use("java.lang.String").$new(arrayList).toUpperCase();
+        printLog(result)
+    })
+}
+
+/**
+ * zdm_key
+ */
+function test3() {
+    printLog("test3")
+    Java.perform(function () {
+        printLog(Java.use("com.smzdm.client.base.utils.Qa").a("p1=p1v&key=apr1$AwP!wRRT$gJ/q.X24poeBInlUJC"))
+    })
+}
+
+/**
  * mmtask
  */
 function mmtask() {
@@ -540,5 +606,9 @@ rpc.exports = {
     tbinit: tbinit,
     mmtask: mmtask,
     refreshsmzdm: refreshsmzdm,
+    test: test,
+    test1: test1,
+    test2: test2,
+    test3: test3,
 
 };
