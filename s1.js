@@ -20,15 +20,15 @@ Java.perform(function () { //Silently fails without the sleep from the python co
     //     this.onResume.apply(this, arguments)
     // };
 
-    Java.use("e.e.b.a.o.a.a").a.overload("java.util.Map", "java.lang.String").implementation = function (x, y) {
-        printJson(x)
-        return this.a.apply(this, arguments)
-    };
-
-    Java.use("com.smzdm.client.base.utils.Qa").a.overload("java.lang.String").implementation = function (x) {
-        printLog(x)
-        return this.a.apply(this, arguments)
-    };
+    // Java.use("e.e.b.a.o.a.a").a.overload("java.util.Map", "java.lang.String").implementation = function (x, y) {
+    //     printJson(x)
+    //     return this.a.apply(this, arguments)
+    // };
+    //
+    // Java.use("com.smzdm.client.base.utils.Qa").a.overload("java.lang.String").implementation = function (x) {
+    //     printLog(x)
+    //     return this.a.apply(this, arguments)
+    // };
 
     //http log
     // Java.use("com.smzdm.common.db.preload.c").log.implementation = function (x) {
@@ -43,6 +43,11 @@ Java.perform(function () { //Silently fails without the sleep from the python co
     //     printJson(arguments[1])
     //     this.a.apply(this, arguments)
     // };
+
+    Java.use("com.jingdong.sdk.a.b").a.overload("[B", "[B").implementation = function () {
+        showStacks3()
+        return this.a.apply(this, arguments)
+    };
 });
 
 let BottomNavActivity
@@ -390,6 +395,36 @@ function test3() {
 }
 
 /**
+ * 京粉sign 算法：params按key排序,params需要是UrlEncode之前的,其中t需要是最近的时间，不然无法请求，
+ * value用&拼接，secretKey固定存在代码中，几类请求使用的不一样, 商品分页获取 使用 2ae79c8a44bd433e9ec33cbce0317cf6
+ * 拼接好的字符串 和 secretKey 作为 HmacSHA256 运算的参数
+ */
+function test4() {
+    printLog("test4")
+    Java.perform(function () {
+        let barray1 = Java.use("java.lang.String").$new("u_jfapp_native&{\"funName\":\"querySearchInfoByEliteId\",\"version\":\"v2\",\"param\":{\"pageNo\":4,\"pageSize\":20,\"eliteId\":2,\"isNeedRecommend\":\"1\"}}&android&3.11.16&unionSearch&2&1637221073464").getBytes()
+        let barray2 = Java.use("java.lang.String").$new("2ae79c8a44bd433e9ec33cbce0317cf6").getBytes()
+        // let barray2 = Java.use("java.lang.String").$new("53b0dc1fea2b46ef9651e324ddb1f5b2").getBytes()
+        let secretKey = Java.use("javax.crypto.spec.SecretKeySpec").$new(barray2, "HmacSHA256")
+        let instance = Java.use("javax.crypto.Mac").getInstance("HmacSHA256")
+        instance.init(secretKey)
+        let byteArray = instance.doFinal(barray1)
+
+        let sb = Java.use("java.lang.StringBuilder").$new()
+        for (let i = 0; i < byteArray.length; i++) {
+            let hexString = Java.use("java.lang.Integer").toHexString(byteArray[i] & 255)
+            if (hexString.length == 1) {
+                sb.append("0");
+            }
+            sb.append(hexString)
+        }
+        let sign = sb.toString().toLowerCase();
+
+        printLog(sign)
+    })
+}
+
+/**
  * mmtask
  */
 function mmtask() {
@@ -610,5 +645,6 @@ rpc.exports = {
     test1: test1,
     test2: test2,
     test3: test3,
+    test4: test4,
 
 };

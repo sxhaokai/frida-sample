@@ -48,8 +48,8 @@ print("frida-server pid: " + pid)
 # print("attach com.ss.android.ugc.aweme...")
 # print("attach com.alimama.moon...")
 
-print("attach com.smzdm.client.android...")
-process = frida.get_usb_device().attach("com.smzdm.client.android")
+print("attach com.jd.jxj...")
+process = frida.get_usb_device().attach("com.jd.jxj")
 
 # while True:
 #     try:
@@ -92,3 +92,5 @@ while 1 == 1:
         script.exports.test2()
     elif command == "test3":
         script.exports.test3()
+    elif command == "test4":
+        script.exports.test4()
