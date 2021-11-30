@@ -48,8 +48,10 @@ print("frida-server pid: " + pid)
 # print("attach com.ss.android.ugc.aweme...")
 # print("attach com.alimama.moon...")
 
-print("attach com.jd.jxj...")
-process = frida.get_usb_device().attach("com.jd.jxj")
+# print("attach com.smzdm.client.android...")
+# process = frida.get_usb_device().attach("com.smzdm.client.android")
+print("attach com.xunmeng.ddjinbao...")
+process = frida.get_usb_device().attach("com.xunmeng.ddjinbao")
 
 # while True:
 #     try:
@@ -62,7 +64,7 @@ process = frida.get_usb_device().attach("com.jd.jxj")
 # process = frida.get_usb_device().attach("com.tencent.mm")
 # process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
 # process = frida.get_usb_device().attach("com.alimama.moon")
-script = process.create_script(open("s1.js").read())
+script = process.create_script(open("s2.js").read())
 script.on("message", my_message_handler)  # register our handler to be called
 script.load()
 while 1 == 1:
@@ -94,3 +96,5 @@ while 1 == 1:
         script.exports.test3()
     elif command == "test4":
         script.exports.test4()
+    elif command == "test5":
+        script.exports.test5()

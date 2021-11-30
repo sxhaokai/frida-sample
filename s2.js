@@ -1,134 +1,79 @@
 console.log("Script loaded successfully ");
 
-Java.perform(function () { //Silently fails without the sleep from the python code
-    console.log("Inside java perform function");
+// Java.perform(function () {
+//     Java.use("com.smzdm.client.base.utils.ZDMKeyUtil")._b.value = null
+// })
 
-    // hookAllClickListener()
+var str_name_so = "libpdd_secure.so";    //要hook的so名
+var str_name_func = "Java_com_xunmeng_pinduoduo_secure_SecureNative_generateApiSignV1";          //要hook的函数名
+var soAddr = Module.findBaseAddress(str_name_so);
+console.log("base addr is: " + soAddr)
 
-    // hookAllMethod("com.xunmeng.ddjinbao.message.ui.MessageListFragment")
+var n_addr_func = Module.findExportByName(str_name_so , str_name_func);
+console.log("func addr is ---" + n_addr_func);
 
-    Java.use("com.xunmeng.ddjinbao.network.service.impl.MessageServiceImpl").$init.implementation = function () {
-        printLog("constructor")
-        return this.$init.apply(this, arguments)
-    };
+let p9
+Interceptor.attach(n_addr_func, {
+    //在hook函数之前执行的语句
+    onEnter: function(args)
+    {
+        console.log("hook on enter: \n" +
+            "arg0: " + getJstring(args[2]) +  "\n" +
+            "arg1: " + getJstring(args[3]) +  "\n" +
+            "arg2: " + getJstring(args[4]) +  "\n" +
+            "arg3: " + getJstring(args[5]) +  "\n" +
 
-    Java.use("c.a.a.n.b.a").a.implementation = function () {
-        printLog("c.a.a.n.b.a.a()")
-        return null
-    };
+            "arg4: " + args[6] +  "\n" +//byte[]: null
+            "arg5: " + args[7] +  "\n" +//byte[]: {"hasCoupon":false,"listId":"1638172419201_16c7009725b2481a2ce93e6dde9b9d2c","optId":-11,"pageNumber":2,"pageSize":20,"sortType":1}
 
-    hookAllMethod("com.huawei.updatesdk.sdk.a.b.c")
+            "arg6: " + args[8].toInt32() +  "\n" +
 
-    let OkhttpBuilder = Java.use("okhttp3.c0$b");
-    Java.use("n.c0").$init.implementation = function (x0, x1, x2, x3, x4, x5) {
-        printLog("n.c0")
-        let builder = OkhttpBuilder.$new();
-        builder.a(Java.use("c.a.a.n.d.a").$new());
-        builder.a(Java.use("c.a.a.n.d.b").$new());
-        let x00 = Java.use("okhttp3.c0").$new(builder)
-        return this.$init(x00, x1, x2, x3, x4, x5)
-    };
+            // "arg7: " + getJstring(args[9]) +  "\n" +
 
-    Java.use("java.net.URL").openConnection.overload().implementation = function () {
-        printLog("openConnection")
-        return this.openConnection.apply(this, arguments)
-    };
-    Java.use("java.net.URL").openConnection.overload("java.net.Proxy").implementation = function () {
-        printLog("openConnection")
-        return this.openConnection.apply(this, arguments)
-    };
-    Java.use("java.net.URL").openConnection.overload().implementation = function () {
-        printLog("openConnection")
-        return this.openConnection.apply(this, arguments)
-    };
+            "arg8: " + getJstring(args[10]) +  "\n"
+        )
+        p9 = args[9]
+        Java.perform(function () {
+            let String = Java.use("java.lang.String")
+            let Barr = Java.use("[B")
+            let buffer = Java.cast(args[7], Barr);
+            var cast = Java.array('byte', buffer);
+            let arg5 = String.$new(cast)
+            printLog("arg5: " + arg5)
+        })
 
-    // hookAllMethod("com.huawei.updatesdk.sdk.a.b.b")
-    let RetrofitFactory = Java.use("com.xunmeng.ddjinbao.network.config.RetrofitFactory");
-    let Retrofit = Java.use("n.c0");
-    let OkHttpClient = Java.use("okhttp3.c0");
-    let TrustManagerFactory = Java.use("javax.net.ssl.TrustManagerFactory");
+    },
+    //在hook函数之后执行的语句
+    onLeave:function(retval)
+    {
+        Java.perform(function () {
+            let Map = Java.use("java.util.Map");
+            let map = Java.cast(ptr(p9), Map);
+            printJson(map)
+        })
+        console.log("retval: " + retval)
+        // console.log(retval.readUtf8String())
 
-    RetrofitFactory.a.implementation = function (x) {
-        Java.use("com.huawei.updatesdk.sdk.a.b.b").d.value = null
-        let retrofit = RetrofitFactory._a.value.remove("https://jinbaoh5.pinduoduo.com/")
-        // let retrofit = RetrofitFactory._a.value.get("https://jinbaoh5.pinduoduo.com/")
-
-        // let okHttpClient = Java.cast(RetrofitFactory._b.value.getValue(), OkHttpClient)
-        // okHttpClient.k.value=Java.use("okhttp3.l").c.value
-        // printLog(okHttpClient.getClass().getName())
-        // printLog(okHttpClient.m.value.getClass().getName())
-        // printLog(okHttpClient.n.value.getClass().getName())
-        // printLog(okHttpClient.p.value.getClass().getName())
-        // //
-        // // okHttpClient.p.value = null
-        // // okHttpClient.n.value = null
-        // printLog("===")
-        // let instance = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        // instance.init(null)
-        // let trustManagers = instance.getTrustManagers();
-        // printLog(Java.use("java.util.Arrays").asList(trustManagers).get(0).getClass().getName())
-
-        let re = this.a.apply(this, arguments);
-        // re._b.value = Java.use("okhttp3.c0").$new()
-        // printLog("Java.use(\"okhttp3.c0\").$new()")
-
-
-        return re
-    };
-
-    Java.choose("com.xunmeng.ddjinbao.home.network.HomeServiceImpl", {
-        onMatch: function (instance) {
-            instance._a.value = RetrofitFactory.c.value.a(null).b(Java.use("c.a.a.i.d.a").class)
-            printLog("HomeServiceImpl")
-        },
-        onComplete: function () {
-        }
-    });
-    Java.choose("com.xunmeng.ddjinbao.network.service.impl.AuthServiceImpl", {
-        onMatch: function (instance) {
-            instance._a.value = RetrofitFactory.c.value.a(null).b(Java.use("c.a.a.n.a.a").class)
-            printLog("AuthServiceImpl")
-        },
-        onComplete: function () {
-        }
-    });
-
-
-    RetrofitFactory.b.implementation = function (x) {
-        printLog("b: " + x)
-        return this.b.apply(this, arguments)
+        // try {
+        //     console.log("hook on leave: " + Memory.readUtf8String(new NativePointer(soAddr + retval.toInt32())));
+        // } catch (exc){
+        //
+        //     console.log(exc)
+        // }
+        // let nativePointer = Memory.readUtf8String(new NativePointer(0xc8f17000 + retval));
+        // let readUtf8String = nativePointer.add(retval));
+        // console.log("hook on leave: " + readUtf8String)
     }
-
-        // Java.use("com.smzdm.client.android.app.HomeActivity").onResume.implementation = function () {
-    //     printLog("onResume")
-    //     this.onResume.apply(this, arguments)
-    // };
-
-    // Java.use("e.e.b.a.o.a.a").a.overload("java.util.Map", "java.lang.String").implementation = function (x, y) {
-    //     printJson(x)
-    //     return this.a.apply(this, arguments)
-    // };
-    //
-    // Java.use("com.smzdm.client.base.utils.Qa").a.overload("java.lang.String").implementation = function (x) {
-    //     printLog(x)
-    //     return this.a.apply(this, arguments)
-    // };
-
-    //http log
-    // Java.use("com.smzdm.common.db.preload.c").log.implementation = function (x) {
-    //     printLog(x)
-    //     this.log.apply(this, arguments)
-    // };
-
-    // Java.use("e.e.b.a.o.d").a
-    //     .overload("java.lang.String", "java.util.Map", "java.lang.Class", "e.e.b.a.o.c")
-    //     .implementation = function () {
-    //     printLog(arguments[0])
-    //     printJson(arguments[1])
-    //     this.a.apply(this, arguments)
-    // };
-
 });
+
+function getJstring(p) {
+    var promt = null
+    Java.perform(function () {
+        var String = Java.use("java.lang.String");
+        promt = Java.cast(ptr(p), String);
+    })
+    return promt
+}
 
 let BottomNavActivity
 
@@ -145,6 +90,7 @@ function writeFile(s) {
 function printLog(str) {
     console.log("=>" + str)
 }
+
 
 function getField(obj, fieldName) {
     return obj.getClass().getDeclaredField(fieldName).get(obj)
@@ -505,6 +451,32 @@ function test4() {
 }
 
 /**
+ * 调用ddjb generateApiSignV1 native方法
+ */
+function test5() {
+    printLog("test5")
+    Java.perform(function () {
+
+        let map = Java.use("java.util.HashMap").$new();
+        printJson(map)
+        let params = Java.use("java.lang.String").$new("{\"optId\":-11,\"pageNumber\":2,\"pageSize\":20}")
+        Java.use("com.xunmeng.pinduoduo.secure.SecureNative")
+            .generateApiSignV1("495e0d4409979647f4c92522e20e08b5",
+                "2.18.0",
+                Java.use("java.lang.String").valueOf(Java.use("java.lang.System").currentTimeMillis()),
+"/network_h5/weak_auth/goods/query_goodslist",
+                null,
+                params.getBytes(),
+                false,
+                map,
+                "com.xunmeng.ddjinbao.android"
+                )
+
+        printJson(map)
+    })
+}
+
+/**
  * mmtask
  */
 function mmtask() {
@@ -726,5 +698,6 @@ rpc.exports = {
     test2: test2,
     test3: test3,
     test4: test4,
+    test5: test5,
 
 };
