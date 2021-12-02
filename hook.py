@@ -1,6 +1,7 @@
 # python code
 import os
 import re
+import time
 import subprocess
 
 import frida
@@ -43,20 +44,23 @@ for value in strlist:
         pid = re.split("/", value)[0]
         break
 print("frida-server pid: " + pid)
-# print("attach com.tencent.mm...")
-print("attach com.ss.android.ugc.aweme...")
-# process = frida.get_usb_device().attach("com.tencent.mm")
-process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
+print("attach com.tencent.mm...")
+# print("attach com.ss.android.ugc.aweme...")
+process = frida.get_usb_device().attach("com.tencent.mm")
+# process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
 script = process.create_script(open("s1.js").read())
 script.on("message", my_message_handler)  # register our handler to be called
 script.load()
 # command = sys.stdin.read()
+
+chatRooms = ["23353584058@chatroom",
+             ]
+for chatroom in chatRooms:
+    script.exports.leaveroom(chatroom)
+    time.sleep(2)
+
+print("waiting for command...")
 while 1 == 1:
     command = input()
-    # split = command.split(" ")
-    # category = split[0]
-    # args = split[1]
-    if command == "callgetfollowlist":
-        script.exports.callgetfollowlist()
-    elif command == "callgetfollowcleanlist":
-        script.exports.callgetfollowcleanlist()
+    script.exports.leaveroom(command)
+

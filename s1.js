@@ -5,11 +5,15 @@ Java.perform(function () { //Silently fails without the sleep from the python co
 
     hookAllClickListener()
 
-    Java.use("com.ss.android.ugc.aweme.live.LiveBroadcastActivity").onCreate.implementation = function () {
-        this.onCreate.apply(this, arguments)
-        printLog("LiveBroadcastActivity onCreate")
-        hookCamera()
-    };
+    hookAllMethod("com.tencent.mm.chatroom.ui.ManageChatroomUI$2")
+    hookAllMethod("com.tencent.mm.chatroom.ui.ManageChatroomUI$3")
+
+    // Java.use("com.ss.android.ugc.aweme.live.LiveBroadcastActivity").onCreate.implementation = function () {
+    //     this.onCreate.apply(this, arguments)
+    //     printLog("LiveBroadcastActivity onCreate")
+    //     hookCamera()
+    // };
+
     // hookRoomInfo()
 
 
@@ -168,6 +172,30 @@ function getFollowList() {
 }
 
 /**
+ * 获取关注列表
+ */
+function dismisschatroom() {
+    var consumerImpl = Java.registerClass({
+        name: 'com.tencent.mm.al.h123',
+        implements: [Java.use("com.tencent.mm.al.h")],
+        methods: {
+            onSceneEnd: function (i, i2, str, pVar) {
+                printLog(i + ", " + i2 + ", " + str)
+                if (i === 0 && i2 === 0) {
+                    printLog("成功解散群")
+                } else {
+                    printLog("解散群失败： " + str)
+                }
+            },
+        }
+    })
+
+    Java.use("com.tencent.mm.chatroom.d.m")
+        .$new("25318170486@chatroom")
+        .doScene(Java.use("com.tencent.mm.kernel.h").aIX().mBz.value, consumerImpl.$new())
+}
+
+/**
  * 获取关注clean列表
  */
 function getFollowCleanList() {
@@ -273,6 +301,33 @@ function sayhi(user_name) {
     });
 }
 
+function leaveroom(chatroom) {
+    if(chatroom){
+        Java.perform(function () {
+            printLog("准备退群: " + chatroom)
+            var consumerImpl = Java.registerClass({
+                name: 'com.tencent.mm.roomsdk.a.b.a123',
+                implements: [Java.use("com.tencent.mm.roomsdk.a.b.a")],
+                methods: {
+                    a: function (i, i2, str ,pVar) {
+                        if (i === 0 && i2 === 0) {
+                            printLog("退群成功: " + chatroom)
+                        } else {
+                            printLog("！！！退群失败: " + chatroom)
+                        }
+                    },
+                }
+            })
+
+            Java.use("com.tencent.mm.roomsdk.a.b")
+                .bpl(chatroom)
+                .HW(chatroom)
+                .d(consumerImpl.$new())
+                .aQp()
+        });
+    }
+}
+
 function post(scene) {
     var core_class = Java.use("com.tencent.mm.model.bj");
     core_class.buS().a(scene, 0); //802
@@ -335,5 +390,7 @@ rpc.exports = {
     callgetfollowlist: getFollowList,
     callgetfollowcleanlist: getFollowCleanList,
     callchatinroom: chatInRoom,
+    dismisschatroom: dismisschatroom,
+    leaveroom: leaveroom,
 
 };
