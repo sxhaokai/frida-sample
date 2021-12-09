@@ -43,10 +43,12 @@ for value in strlist:
         pid = re.split("/", value)[0]
         break
 print("frida-server pid: " + pid)
-# print("attach com.tencent.mm...")
-print("attach com.ss.android.ugc.aweme...")
+print("attach com.tencent.mm...")
+# print("attach com.ss.android.ugc.aweme...")
+process = frida.get_usb_device().attach("com.tencent.mm:support")
+# process = frida.get_usb_device().attach("com.tencent.mm:push")
 # process = frida.get_usb_device().attach("com.tencent.mm")
-process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
+# process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
 script = process.create_script(open("s1.js").read())
 script.on("message", my_message_handler)  # register our handler to be called
 script.load()
