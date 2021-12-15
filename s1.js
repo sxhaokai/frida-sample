@@ -15,10 +15,26 @@ Java.perform(function () { //Silently fails without the sleep from the python co
     //     return this.a.apply(this, arguments)
     // };
 
+    Java.use("com.tencent.mm.sdk.platformtools.Log").i.overload("java.lang.String", "java.lang.String", "[Ljava.lang.Object;").implementation = function () {
+        if (arguments[0] === "MicroMsg.CoreService") {
+            printLog(arguments[1])
+        }
+
+        this.i.apply(this, arguments)
+    };
+
     Java.use("com.tencent.mm.modelmulti.l").b
         .implementation = function () {
         printLog("b")
         //content
+        let ba = arguments[1];
+        let c = 0;
+        for (let i = 0; i< ba.length ; i++) {
+            c=c+ba[i]
+        }
+
+        printLog("c: " + c)
+
         let bVar = Java.use("com.tencent.mm.protocal.v$b").$new();
         let pByteArray = Java.use("com.tencent.mm.pointers.PByteArray").$new();
         let pByteArray2 = Java.use("com.tencent.mm.pointers.PByteArray").$new();
@@ -47,6 +63,27 @@ Java.perform(function () { //Silently fails without the sleep from the python co
         return this.b.apply(this, arguments)
     };
 
+
+    Java.use("com.tencent.mars.stn.StnLogic").onPush.implementation = function () {
+        printLog("onPush")
+        showStacks3()
+        this.onPush.apply(this, arguments)
+    };
+    Java.use("com.tencent.mm.booter.CoreService").f
+        .overload("int", "[B")
+        .implementation = function () {
+        printLog("CoreService")
+        let ba = arguments[1];
+        let c = 0;
+        for (let i = 8; i< ba.length ; i++) {
+            c=c+ba[i]
+        }
+
+        printLog("c: " + c)
+
+        return this.f.apply(this, arguments)
+    };
+
     // Java.use("com.tencent.mm.service.CommonProcessService$1$3").run.implementation = function () {
     //     printLog(this.XLS.value.getStringExtra("class_name"))
     //     printLog(this.XLS.value.hasExtra("notify_skey"))
@@ -54,45 +91,52 @@ Java.perform(function () { //Silently fails without the sleep from the python co
     //     this.run.apply(this, arguments)
     // };
 
-    Java.use("com.tencent.mm.service.c").a
-        .overload("android.content.Intent", "java.lang.String", "boolean", "android.content.Intent")
-        .implementation = function () {
+    // Java.use("com.tencent.mm.service.c").a
+    //     .overload("android.content.Intent", "java.lang.String", "boolean", "android.content.Intent")
+    //     .implementation = function () {
+    //
+    //     printLog("remote call IPC")
+    //     printLog("curPid: " + Java.use("android.os.Process").myPid())
+    //
+    //     printLog("class_name: " + arguments[0].getComponent().getClassName())
+    //
+    //     let byteArrayExtra = arguments[0].getByteArrayExtra("notify_respBuf");
+    //     let byteArrayExtra2 = arguments[0].getByteArrayExtra("notify_skey");
+    //     let v3 = byteArrayExtra.length - 8
+    //     let array = new Array(v3);
+    //     array.fill(0)
+    //     let bArr = Java.array('byte', array);
+    //     Java.use("java.lang.System").arraycopy(byteArrayExtra, 8, bArr, 0, v3);
+    //
+    //     let bVar = Java.use("com.tencent.mm.protocal.v$b").$new();
+    //     let pByteArray = Java.use("com.tencent.mm.pointers.PByteArray").$new();
+    //     let pByteArray2 = Java.use("com.tencent.mm.pointers.PByteArray").$new();
+    //     let pInt = Java.use("com.tencent.mm.pointers.PInt").$new();
+    //     let pInt2 = Java.use("com.tencent.mm.pointers.PInt").$new();
+    //     let pInt3 = Java.use("com.tencent.mm.pointers.PInt").$new(0);
+    //     let pInt4 = Java.use("com.tencent.mm.pointers.PInt").$new(255);
+    //
+    //     Java.use("com.tencent.mm.protocal.MMProtocalJni").unpack(pByteArray2, bArr, byteArrayExtra2, pByteArray, pInt, pInt2, pInt3, pInt4);
+    //     // Java.use("com.tencent.mm.protocal.MMProtocalJni").unpack(pByteArray2, arguments[1], arguments[2], pByteArray, pInt, pInt2, pInt3, pInt4);
+    //
+    //     pByteArray2.value.value = Java.use("com.tencent.mm.jni.utils.UtilsJni").AesGcmDecryptWithUncompress(
+    //         Java.use("com.tencent.mm.kernel.h").aJE().qm(3),
+    //         pByteArray2.value.value);
+    //
+    //     bVar.fromProtoBuf(pByteArray2.value.value)
+    //
+    //     let x = Java.cast(bVar.UeG.value, Java.use("com.tencent.mm.protocal.protobuf.dlm")).UIC.value.sZx.value.get(0);
+    //     x = Java.cast(x, Java.use("com.tencent.mm.protocal.protobuf.acp"))
+    //     let ClassProtoDc = Java.use("com.tencent.mm.protocal.protobuf.dc");
+    //     let msg = ClassProtoDc.$new().parseFrom(Java.use("com.tencent.mm.platformtools.x").a(x.UQQ.value));
+    //     msg = Java.cast(msg, ClassProtoDc)
+    //     printLog(msg.Ulq.value.WSB.value)
+    //
+    //     this.a.apply(this, arguments)
+    // };
 
-        printLog("remote call IPC")
-        printLog("curPid: " + Java.use("android.os.Process").myPid())
 
-        let byteArrayExtra = arguments[0].getByteArrayExtra("notify_respBuf");
-        let byteArrayExtra2 = arguments[0].getByteArrayExtra("notify_skey");
-        let v3 = byteArrayExtra.length - 8
-        let bArr = new byte[v3];
-        Java.use("java.lang.System").arraycopy(byteArrayExtra, 8, bArr, 0, v3);
 
-        let bVar = Java.use("com.tencent.mm.protocal.v$b").$new();
-        let pByteArray = Java.use("com.tencent.mm.pointers.PByteArray").$new();
-        let pByteArray2 = Java.use("com.tencent.mm.pointers.PByteArray").$new();
-        let pInt = Java.use("com.tencent.mm.pointers.PInt").$new();
-        let pInt2 = Java.use("com.tencent.mm.pointers.PInt").$new();
-        let pInt3 = Java.use("com.tencent.mm.pointers.PInt").$new(0);
-        let pInt4 = Java.use("com.tencent.mm.pointers.PInt").$new(255);
-
-        Java.use("com.tencent.mm.protocal.MMProtocalJni").unpack(pByteArray2, bArr, byteArrayExtra2, pByteArray, pInt, pInt2, pInt3, pInt4);
-        // Java.use("com.tencent.mm.protocal.MMProtocalJni").unpack(pByteArray2, arguments[1], arguments[2], pByteArray, pInt, pInt2, pInt3, pInt4);
-
-        pByteArray2.value.value = Java.use("com.tencent.mm.jni.utils.UtilsJni").AesGcmDecryptWithUncompress(
-            Java.use("com.tencent.mm.kernel.h").aJE().qm(3),
-            pByteArray2.value.value);
-
-        bVar.fromProtoBuf(pByteArray2.value.value)
-
-        let x = Java.cast(bVar.UeG.value, Java.use("com.tencent.mm.protocal.protobuf.dlm")).UIC.value.sZx.value.get(0);
-        x = Java.cast(x, Java.use("com.tencent.mm.protocal.protobuf.acp"))
-        let ClassProtoDc = Java.use("com.tencent.mm.protocal.protobuf.dc");
-        let msg = ClassProtoDc.$new().parseFrom(Java.use("com.tencent.mm.platformtools.x").a(x.UQQ.value));
-        msg = Java.cast(msg, ClassProtoDc)
-        printLog(msg.Ulq.value.WSB.value)
-
-        this.a.apply(this, arguments)
-    };
 
     // Java.use("com.tencent.mm.sdk.platformtools.MTimerHandler").handleMessage.implementation = function () {
     //     printLog("handleMessage")
