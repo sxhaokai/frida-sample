@@ -8,7 +8,7 @@ import frida
 
 #
 # device = frida.get_usb_device()
-# pid = device.spawn(["com.ss.android.ugc.aweme"])
+# pid = device.spawn(["com.baidu.homework"])
 # device.resume(pid)
 # time.sleep(1) #Without it Java.perform silently fails
 # session = device.attach(pid)
@@ -20,9 +20,14 @@ import frida
 
 # python code
 def my_message_handler(message, payload):  # define our handler
-    print("message: ", message)
-    print("payload: ", payload)
+    # print("message: ", message)
+    # print("payload: ", payload)
 
+    payload_ = message["payload"]
+    print(payload_)
+    file = open("response.json", "w")
+    file.write(payload_)
+    file.close()
 
 def shell(commandv):
     print(commandv)
@@ -44,9 +49,9 @@ for value in strlist:
         break
 print("frida-server pid: " + pid)
 # print("attach com.tencent.mm...")
-print("attach com.ss.android.ugc.aweme...")
+print("attach com.baidu.homework...")
 # process = frida.get_usb_device().attach("com.tencent.mm")
-process = frida.get_usb_device().attach("com.ss.android.ugc.aweme")
+process = frida.get_usb_device().attach("com.baidu.homework")
 script = process.create_script(open("s1.js").read())
 script.on("message", my_message_handler)  # register our handler to be called
 script.load()
@@ -60,3 +65,5 @@ while 1 == 1:
         script.exports.callgetfollowlist()
     elif command == "callgetfollowcleanlist":
         script.exports.callgetfollowcleanlist()
+    elif command == "picsearch":
+        script.exports.picsearch()

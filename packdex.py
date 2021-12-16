@@ -15,6 +15,7 @@ files = os.listdir(path) #得到文件夹下的所有文件名称
 s = []
 for file in files: #遍历文件夹
     if file.find("dex") > 0: ## 查找dex 文件
-        sh = 'jadx -j 1 -r -d ' + sys.argv[2] + " " + path + file
+        sh = "jadx  -r --no-imports --no-inline-anonymous --deobf --deobf-min 3 --deobf-use-sourcename --rename-flags 'all' -d " + sys.argv[2] + " " + path + file
+        # sh = 'jadx  -r -d ' + sys.argv[2] + " " + path + file
         print(sh)
         os.system(sh)

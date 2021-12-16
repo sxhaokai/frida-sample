@@ -5,13 +5,78 @@ Java.perform(function () { //Silently fails without the sleep from the python co
 
     hookAllClickListener()
 
-    Java.use("com.ss.android.ugc.aweme.live.LiveBroadcastActivity").onCreate.implementation = function () {
-        this.onCreate.apply(this, arguments)
-        printLog("LiveBroadcastActivity onCreate")
-        hookCamera()
-    };
+    // hookAllMethod("com.baidu.homework.activity.search.singlequestion.PicSearchActivity")
+
+    // Java.use("com.baidu.homework.activity.search.singlequestion.PicSearchActivity").a.overload("android.content.Context", "[B","int", "int", "boolean").implementation = function () {
+    //     printLog(arguments[2] + ", " + arguments[3] + ", " + arguments[4])
+    //     this.a.apply(this, arguments)
+    // };
+    // Java.use("com.baidu.homework.common.ui.widget.HybridWebView$d").shouldInterceptRequest.overload('android.webkit.WebView', 'android.webkit.WebResourceRequest').implementation = function () {
+    //     printLog("res: " + arguments[1].getUrl())
+    //     this.shouldInterceptRequest.apply(this, arguments)
+    // };
+    // Java.use("com.baidu.homework.common.ui.widget.HybridWebView$d").shouldInterceptRequest.overload('com.zuoyebang.common.web.WebView', 'java.lang.String').implementation = function () {
+    //     printLog("url: " + arguments[1])
+    //     this.shouldInterceptRequest.apply(this, arguments)
+    // };
+
+    // Java.use("com.zuoyebang.common.web.WebView").loadUrl.overload("java.lang.String").implementation = function () {
+    //     printLog(arguments[0])
+    //     this.loadUrl.apply(this, arguments)
+    // };
+
+    // Java.use("com.zuoyebang.common.web.WebView").evaluateJavascript.implementation = function () {
+    //     printLog(arguments[0])
+    //     this.evaluateJavascript.apply(this, arguments)
+    // };
+
+    // hookAllMethod("com.zuoyebang.common.web.s")
+
+
+    // Java.use("com.baidu.homework.activity.search.singlequestion.PicSearchActivity").a.overload("com.baidu.homework.common.net.model.v1.Picsearchnew").implementation = function () {
+    //     showStacks3()
+    //     return this.a.apply(this, arguments)
+    // };
+
+    // Java.use("com.baidu.homework.activity.search.singlequestion.PicSearchActivity$5").a.overload("java.lang.Object").implementation = function () {
+    //     send(Java.use("com.google.gson.Gson").$new().toJson(arguments[0]))
+    //     return this.a.apply(this, arguments)
+    // };
+
+    // Java.use("com.baidu.homework.activity.search.core.SearchResultPagerAdapter").e.overload("int").implementation = function () {
+    //     printLog(this.b(arguments[0]))
+    //     showStacks3()
+    //     return this.e.apply(this, arguments)
+    // };
+
+    // Java.use("com.baidu.homework.common.net.model.v1.Picsearchnew$Input").buildInput.implementation = function () {
+    //     printArgs(arguments)
+    //     return this.buildInput.apply(this, arguments)
+    // };
+
+
+    // Java.use("com.baidu.homework.common.ui.widget.HybridWebView").isPageLoadCompleted.implementation = function () {
+    //     showStacks3()
+    //     return this.isPageLoadCompleted.apply(this, arguments)
+    // };
+
+    // hookAllMethod("com.baidu.homework.common.ui.widget.HybridWebView")
+
+
     // hookRoomInfo()
 
+    // hookAllMethod("com.baidu.homework.common.ui.widget.HybridWebView")
+    // Java.use("android.webkit.WebView").loadUrl.overload("java.lang.String").implementation = function () {
+    //     // printLog("loadUrl" + arguments[0])
+    //     send(arguments[0])
+    //     this.loadUrl.apply(this, arguments)
+    // };
+
+    // Java.use("com.baidu.homework.common.ui.widget.HybridWebView").loadUrl.overload("java.lang.String").implementation = function () {
+    //     printLog("postUrl")
+    //     printArgs(arguments)
+    //     this.loadUrl.apply(this, arguments)
+    // };
 
     // hookAllMethod("com.ss.android.ugc.aweme.live.LivePlayActivity")
     // hookAllMethod("com.bytedance.android.live.core.a.a")//日志
@@ -208,6 +273,58 @@ function chatInRoom() {
 }
 
 /**
+ * zyb
+ */
+function picsearch() {
+    var consumerImpl = Java.registerClass({
+        name: 'com.baidu.homework.common.net.f.abc',
+        implements: [Java.use("com.baidu.homework.common.net.f$a")],
+        methods: {
+            a: [{
+                returnType: 'void',
+                argumentTypes: ['com.baidu.homework.common.net.e'],
+                implementation(error) {
+                    printLog("error")
+                    printJson(error)
+                }
+            }, {
+                returnType: 'void',
+                argumentTypes: ['java.lang.Object'],
+                implementation(result) {
+                    printLog("success")
+                    send(Java.use("com.google.gson.Gson").$new().toJson(result))
+                }
+            }]
+        }
+    })
+
+    Java.choose("com.baidu.homework.base.ProxyApplication",{
+        onMatch: function(context){
+            printLog("request=>")
+            let file = Java.use("java.io.File").$new("/sdcard/a.png");
+            let input = Java.use("java.io.BufferedInputStream").$new(Java.use("java.io.FileInputStream").$new(file));
+            let array = new Array(input.available());
+            array.fill(0)
+            let bArr = Java.array('byte', array);
+            // bArr = Java.cast(bArr, Java.use("[B"))
+            input.read(bArr, 0, input.available());
+            input.close();
+            let j2 = Java.use("com.baidu.homework.common.utils.h").a(Java.use("com.baidu.homework.base.BaseApplication").getCuid() + Java.use("android.os.SystemClock").elapsedRealtime())
+            let a2 = Java.use("com.baidu.homework.activity.search.a.g").a(bArr, true)
+            let inputbase = Java.use("com.baidu.homework.common.net.model.v1.Picsearchnew$Input")
+                .buildInput(0, j2, 0, 0, a2, "", "", 1, "20211214174806ecc2d5c7d513d7f8e7c2c61da3fb513c01748ff2d70e8303", 0, 1, 0, "{\"ugcQuestion\":0}", "{\"newFirstCamera\":\"2\"}", "")
+            let request = Java.use("com.baidu.homework.common.net.f").$new(context, inputbase, "image", bArr);
+            Thread.sleep(3)
+            request.a(consumerImpl.$new())
+        },
+        onComplete: function(){
+
+        }
+    });
+
+}
+
+/**
  * hook所有view的ClickListener的点击
  */
 function hookAllClickListener() {
@@ -248,7 +365,8 @@ function hookAllMethod(className) {
                 }
                 args += str + ", "
             }
-            console.log("hooked method: " + str_mhd_name + (args === "" ? "" : ", " + args))
+            console.log("hooked method: " + str_mhd_name)
+            // console.log("hooked method: " + str_mhd_name + (args === "" ? "" : ", " + args))
             return this[str_mhd_name].apply(this, arguments)
         }
             // getGenericInterceptor(className, str_mhd_name, pClazzNames.length)
@@ -335,5 +453,6 @@ rpc.exports = {
     callgetfollowlist: getFollowList,
     callgetfollowcleanlist: getFollowCleanList,
     callchatinroom: chatInRoom,
+    picsearch: picsearch,
 
 };
