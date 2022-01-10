@@ -20,14 +20,14 @@ import frida
 
 # python code
 def my_message_handler(message, payload):  # define our handler
-    # print("message: ", message)
-    # print("payload: ", payload)
+    print("message: ", message)
+    print("payload: ", payload)
 
-    payload_ = message["payload"]
-    print(payload_)
-    file = open("response.json", "w")
-    file.write(payload_)
-    file.close()
+    # payload_ = message["payload"]
+    # print(payload_)
+    # file = open("response.json", "w")
+    # file.write(payload_)
+    # file.close()
 
 def shell(commandv):
     print(commandv)
@@ -48,10 +48,10 @@ for value in strlist:
         pid = re.split("/", value)[0]
         break
 print("frida-server pid: " + pid)
-# print("attach com.tencent.mm...")
-print("attach com.baidu.homework...")
-# process = frida.get_usb_device().attach("com.tencent.mm")
-process = frida.get_usb_device().attach("com.baidu.homework")
+print("attach com.tencent.mm...")
+# print("attach com.baidu.homework...")
+process = frida.get_usb_device().attach("com.tencent.mm")
+# process = frida.get_usb_device().attach("com.baidu.homework")
 script = process.create_script(open("s1.js").read())
 script.on("message", my_message_handler)  # register our handler to be called
 script.load()
@@ -67,3 +67,7 @@ while 1 == 1:
         script.exports.callgetfollowcleanlist()
     elif command == "picsearch":
         script.exports.picsearch()
+    elif command == "livestart":
+        script.exports.livestart()
+    elif command == "liveclose":
+        script.exports.liveclose()

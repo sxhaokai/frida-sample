@@ -3,7 +3,184 @@ console.log("Script loaded successfully ");
 Java.perform(function () { //Silently fails without the sleep from the python code
     console.log("Inside java perform function");
 
+    let Handler = Java.use("android.os.Handler");
+    let Looper = Java.use("android.os.Looper");
+    let Runnable = Java.use("java.lang.Runnable");
+    let Long = Java.use("java.lang.Long");
+    let String = Java.use("java.lang.String");
+    let EditText = Java.use("android.widget.EditText");
+    let CharSequence = Java.use("java.lang.CharSequence");
+    let BufferType = Java.use("android.widget.TextView$BufferType");
+    let TextView = Java.use("android.widget.TextView");
+    // "java.lang.Runnable"
+
+
     hookAllClickListener()
+
+    /*
+    Java.use("com.tencent.mm.plugin.finder.live.viewmodel.j$$ExternalSyntheticLambda0").onClick.implementation = function () {
+        Java.use("android.widget.EditText").getText.overload().implementation = function () {
+            // showStacks3()
+            let apply = this.getText.apply(this, arguments);
+            let cast = Java.cast(apply, Java.use("java.lang.CharSequence"));
+            if (cast.toString() === "我们") {
+                showStacks3()
+                printLog(cast.toString())
+
+            }
+            return apply
+        };
+        this.onClick.apply(this, arguments)
+
+    };
+
+    TextView.setText.overload("java.lang.CharSequence").implementation = function () {
+        printLog(arguments[0].toString())
+        printLog("000")
+        if (arguments[0].toString() === "分类: 兴趣培养") {
+            showStacks3()
+
+
+        }
+        this.setText.apply(this, arguments)
+    };
+
+    Java.use("com.tencent.mm.plugin.finder.live.widget.ba").dUp.implementation = function () {
+
+        this.dUp.apply(this, arguments)
+
+        printLog("dUp")
+        printLog(this.BlW.value)
+        printLog(this.tag.value)
+
+    };
+    TextView.setText.overload("java.lang.CharSequence", "android.widget.TextView$BufferType").implementation = function () {
+        printLog(arguments[0].toString())
+        printLog("111")
+
+        this.setText.apply(this, arguments)
+        if (arguments[0].toString() === "分类: 兴趣培养") {
+            showStacks3()
+        }
+    };
+
+
+    // Java.use("android.app.Activity").onActivityResult.implementation = function () {
+    //     printArgs(arguments)
+    //     this.onActivityResult.apply(this, arguments)
+    // };
+
+    hookAllMethod("com.tencent.mm.plugin.finder.live.viewmodel.j")
+
+     */
+
+    //发起直播dialog弹出之后 点击直播item
+    Java.use("com.tencent.mm.ui.widget.a.f").dcy.implementation = function () {
+
+        this.dcy.apply(this, arguments)
+        printLog("com.tencent.mm.ui.widget.a.f.dcy")
+
+        let recyclerView = Java.cast(this.mRecyclerView.value, Java.use("androidx.recyclerview.widget.RecyclerView"));
+        let run1 = Java.registerClass({
+            name: 'com.tencent.mm.plugin.finder.ui.Runnablezz2',
+            implements: [Java.use("java.lang.Runnable")],
+            methods: {
+                run: function () {
+                    let view = Java.cast(recyclerView.getChildAt(0), Java.use("android.view.View"));
+                    view.performClick();
+                },
+            }
+        })
+        Handler.$new(Looper.getMainLooper()).postDelayed(run1.$new(), 1000)
+
+    };
+
+    //点击发起直播Layout， 弹出dialog
+    Java.use("com.tencent.mm.plugin.finder.ui.FinderSelfUI").onResume.implementation = function () {
+
+        this.onResume.apply(this, arguments)
+
+        let view = this.findViewById(Java.use("com.tencent.mm.plugin.finder.e$e").livePostBtn.value);
+        let cast = Java.cast(view, Java.use("android.view.View"));
+
+        let run1 = Java.registerClass({
+            name: 'com.tencent.mm.plugin.finder.ui.Runnablezz1',
+            implements: [Java.use("java.lang.Runnable")],
+            methods: {
+                run: function () {
+                    cast.performClick();
+                },
+            }
+        })
+        Handler.$new(Looper.getMainLooper()).postDelayed(run1.$new(), 1000)
+
+    };
+
+    //准备直播界面 点击开始
+    Java.use("com.tencent.mm.plugin.finder.feed.ui.FinderLiveAnchorWithoutAffinityUI").onResume.implementation = function () {
+
+        this.onResume.apply(this, arguments)
+
+        let view = this.findViewById(Java.use("com.tencent.mm.plugin.finder.live.p$e").zjX.value);
+        let cast = Java.cast(view, Java.use("android.view.View"));
+
+        let run1 = Java.registerClass({
+            name: 'com.tencent.mm.plugin.finder.ui.Runnablezz3',
+            implements: [Java.use("java.lang.Runnable")],
+            methods: {
+                run: function () {
+                    cast.performClick();
+                },
+            }
+        })
+        Handler.$new(Looper.getMainLooper()).postDelayed(run1.$new(), 3000)
+    };
+
+
+    Java.use("com.tencent.mm.plugin.finder.live.viewmodel.j").s.implementation = function () {
+        printArgs(arguments)
+        let editText = Java.cast(this.AUm.value, EditText);
+        if (editText != null) {
+            let $new = String.$new("搞笑生活");
+            let cast = $new.subSequence(0, 4)
+            let cast1 = Java.cast(cast, CharSequence);
+            editText.setText(cast1, BufferType.NORMAL.value)
+        }
+        this.s.apply(this, arguments)
+    };
+
+
+
+
+
+
+    // hookAllMethod("com.tencent.mm.ui.widget.a.f$9")
+    // hookAllMethod("com.tencent.mm.ui.widget.a.f$10")
+    // hookAllMethod("com.tencent.mm.ui.widget.a.f$12")
+
+    // Java.use("com.tencent.mm.ui.widget.a.f$9").onItemClick.implementation = function () {
+    //     showStacks3()
+    //     this.onItemClick.apply(this, arguments)
+    // };
+    // Java.use("android.app.Activity").startActivity.overload("android.content.Intent").implementation = function () {
+    //     showStacks3()
+    //     this.startActivity.apply(this, arguments)
+    // };
+
+
+    // Java.use("com.tencent.mm.plugin.finder.viewmodel.component.al$$ExternalSyntheticLambda16").$init.implementation = function () {
+    //     showStacks3()
+    //     return this.$init.apply(this, arguments)
+    // };
+
+    // Java.use("android.app.Dialog").show.implementation = function () {
+    //     printLog("show")
+    //     showStacks3()
+    //     this.show.apply(this, arguments)
+    // };
+
+
+
 
     // hookAllMethod("com.baidu.homework.activity.search.singlequestion.PicSearchActivity")
 
@@ -325,6 +502,80 @@ function picsearch() {
 }
 
 /**
+ * 开启直播
+ */
+function livestart() {
+
+    Java.choose("com.tencent.mm.ui.LauncherUI",{
+        onMatch: function(context){
+            printLog("start=>")
+            let Intent = Java.use("android.content.Intent");
+            let FinderLiveAnchorAffinityUI = Java.use("com.tencent.mm.plugin.finder.feed.ui.FinderLiveAnchorAffinityUI");
+            let FinderSelfUI = Java.use("com.tencent.mm.plugin.finder.ui.FinderSelfUI");
+            context.startActivity(Intent.$new(context, FinderSelfUI.class))
+
+        },
+        onComplete: function(){
+
+        }
+    });
+
+}
+
+/**
+ * 关闭直播
+ */
+function liveclose() {
+
+    Java.choose("com.tencent.mm.plugin.finder.feed.ui.FinderLiveAnchorWithoutAffinityUI",{
+        onMatch: function(context){
+            printLog("close=>")
+
+            let Handler = Java.use("android.os.Handler");
+            let Looper = Java.use("android.os.Looper");
+            printLog("haha")
+
+            let view = context.findViewById(2131305090)
+            // let view = context.findViewById(Java.use("com.tencent.mm.plugin.finder.live.p$e").live_visitor_close_btn_group.value)
+            printLog("view: " + view)
+            let cast = Java.cast(view, Java.use("android.view.View"));
+
+
+            printLog("heihei")
+            let run1 = Java.registerClass({
+                name: 'com.tencent.mm.plugin.finder.ui.Runnablezz5',
+                implements: [Java.use("java.lang.Runnable")],
+                methods: {
+                    run: function () {
+                        printLog("closing 1")
+                        cast.performClick();
+                    },
+                }
+            })
+            let run2 = Java.registerClass({
+                name: 'com.tencent.mm.plugin.finder.ui.Runnablezz6',
+                implements: [Java.use("java.lang.Runnable")],
+                methods: {
+                    run: function () {
+                        printLog("closing 2")
+                        let view2 = context.findViewById(Java.use("com.tencent.mm.plugin.finder.live.p$e").live_after_finish_btn.value)
+                        let cast2 = Java.cast(view2, Java.use("android.view.View"));
+                        cast2.performClick();
+                    },
+                }
+            })
+            printLog("heihei 2")
+            Handler.$new(Looper.getMainLooper()).post(run1.$new())
+            Handler.$new(Looper.getMainLooper()).postDelayed(run2.$new(), 3000)
+        },
+        onComplete: function(){
+
+        }
+    });
+
+}
+
+/**
  * hook所有view的ClickListener的点击
  */
 function hookAllClickListener() {
@@ -365,7 +616,7 @@ function hookAllMethod(className) {
                 }
                 args += str + ", "
             }
-            console.log("hooked method: " + str_mhd_name)
+            console.log("hooked method: " + str_mhd_name + ", " + className)
             // console.log("hooked method: " + str_mhd_name + (args === "" ? "" : ", " + args))
             return this[str_mhd_name].apply(this, arguments)
         }
@@ -454,5 +705,7 @@ rpc.exports = {
     callgetfollowcleanlist: getFollowCleanList,
     callchatinroom: chatInRoom,
     picsearch: picsearch,
+    livestart: livestart,
+    liveclose: liveclose,
 
 };
