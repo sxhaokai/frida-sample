@@ -20,14 +20,14 @@ import frida
 
 # python code
 def my_message_handler(message, payload):  # define our handler
-    # print("message: ", message)
-    # print("payload: ", payload)
+    print("message: ", message)
+    print("payload: ", payload)
 
-    payload_ = message["payload"]
-    print(payload_)
-    file = open("response.json", "w")
-    file.write(payload_)
-    file.close()
+    # payload_ = message["payload"]
+    # print(payload_)
+    # file = open("response.json", "w")
+    # file.write(payload_)
+    # file.close()
 
 def shell(commandv):
     print(commandv)
@@ -67,3 +67,9 @@ while 1 == 1:
         script.exports.callgetfollowcleanlist()
     elif command == "picsearch":
         script.exports.picsearch()
+    elif command == "picsearch1":
+        script.exports.picsearch1()
+    elif command == "test1":
+        script.exports.test1()
+    elif command == "test2":
+        script.exports.test2()

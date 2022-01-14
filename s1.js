@@ -2,10 +2,50 @@ console.log("Script loaded successfully ");
 
 Java.perform(function () { //Silently fails without the sleep from the python code
     console.log("Inside java perform function");
-
+    let String = Java.use("java.lang.String");
+    let Picsearchnew$Input = Java.use("com.baidu.homework.common.net.model.v1.Picsearchnew$Input");
+    let net_d = Java.use("com.baidu.homework.common.net.d");
+    let NativeHelper = Java.use("com.zuoyebang.baseutil.NativeHelper");
     hookAllClickListener()
 
     // hookAllMethod("com.baidu.homework.activity.search.singlequestion.PicSearchActivity")
+
+    // Java.use("com.google.a.f").a.overload("java.lang.String", "java.lang.reflect.Type").implementation = function () {
+    //     // printLog("111")
+    //
+    //
+    //     return this.a.apply(this, arguments)
+    // };
+
+    // Java.use("com.android.c.a.a").a.overload("com.android.c.q").implementation = function () {
+    //     printLog(arguments[0].getClass())
+    //     let apply = this.a.apply(this, arguments);
+    //     let cast = Java.cast(apply, Java.use("com.android.c.m"));
+    //     // printLog(String.$new(cast.b.value))
+    //     return apply
+    //
+    // };
+
+    // Java.use("com.android.c.e").a.overload("com.android.c.q", "com.android.c.s", "java.lang.Runnable").implementation = function () {
+    //     printJson(arguments[1]._a.value)
+    //     showStacks3()
+    //     this.a.apply(this, arguments)
+    // };
+
+    // Java.use("java.security.MessageDigest").update.overload("[B").implementation = function () {
+    //     let string = String.$new(arguments[0]);
+    //     let contains = string.contains(String.$new("picsearchnew"));
+    //     if(contains){
+    //         printLog(string)
+    //     }
+    //     this.update.apply(this, arguments)
+    // };
+    // NativeHelper.nativeGetSign.implementation = function (x) {
+    //     let apply = this.nativeGetSign.apply(this, arguments);
+    //     printLog(x)
+    //     printLog(apply)
+    //     return apply
+    // };
 
     // Java.use("com.baidu.homework.activity.search.singlequestion.PicSearchActivity").a.overload("android.content.Context", "[B","int", "int", "boolean").implementation = function () {
     //     printLog(arguments[2] + ", " + arguments[3] + ", " + arguments[4])
@@ -272,6 +312,80 @@ function chatInRoom() {
     // Java.use("com.ss.android.ugc.aweme.utils.ew").a(fetchFollowingCleanList)
 }
 
+function test1() {
+    Java.perform(function () {
+        // let list = Java.use("java.util.ArrayList").$new();
+        // list.add("a=1")
+        // list.add("b=2")
+        // let sign = Java.use("com.baidu.homework.base.ae").a(list);
+        // printLog(sign)
+        let value = Java.use("com.baidu.homework.base.ae")._a.value;
+        let cast = Java.cast(value , Java.use("java.lang.Object"));
+        printLog(cast.getClass())
+    });
+}
+function test2() {
+    Java.perform(function () {
+        let input = "abcdefg"
+        let nativeGetSign = Java.use("com.zuoyebang.baseutil.NativeHelper").nativeGetSign(input);
+        printLog(input)
+        printLog(nativeGetSign)
+    });
+}
+
+/**
+ * zyb
+ */
+function picsearch1() {
+    var consumerImpl = Java.registerClass({
+        name: 'com.baidu.homework.common.net.g.abc',
+        implements: [Java.use("com.baidu.homework.common.net.g$a")],
+        methods: {
+            a: [{
+                returnType: 'void',
+                argumentTypes: ['com.baidu.homework.common.net.f'],
+                implementation(error) {
+                    printLog("error")
+                    printJson(error)
+                }
+            }, {
+                returnType: 'void',
+                argumentTypes: ['java.lang.Object'],
+                implementation(result) {
+                    printLog("success")
+                    send(Java.use("com.google.gson.Gson").$new().toJson(result))
+                }
+            }]
+        }
+    })
+
+    Java.choose("com.baidu.homework.base.ZybApplication",{
+        onMatch: function(context){
+            printLog("request=>")
+            let file = Java.use("java.io.File").$new("/sdcard/a.png");
+            let input = Java.use("java.io.BufferedInputStream").$new(Java.use("java.io.FileInputStream").$new(file));
+            let array = new Array(input.available());
+            array.fill(0)
+            let bArr = Java.array('byte', array);
+            // bArr = Java.cast(bArr, Java.use("[B"))
+            input.read(bArr, 0, input.available());
+            input.close();
+            let j2 = Java.use("com.baidu.homework.common.utils.g").a(Java.use("com.baidu.homework.base.BaseApplication").getCuid() + Java.use("android.os.SystemClock").elapsedRealtime())
+            let a2 = Java.use("com.baidu.homework.activity.search.a.g").a(bArr, true)
+            let inputbase = Java.use("com.baidu.homework.common.net.model.v1.Picsearchnew$Input")
+                .buildInput(0, j2, 0, 0, a2, "", "", 1, "20211214174806ecc2d5c7d513d7f8e7c2c61da3fb513c01748ff2d70e8303", 0, 1, 0, "{\"ugcQuestion\":0}", "{\"newFirstCamera\":\"2\"}", "")
+            let request = Java.use("com.baidu.homework.common.net.g").$new(context, inputbase, "image", bArr);
+            Thread.sleep(3)
+            request.a(consumerImpl.$new())
+        },
+        onComplete: function(){
+
+        }
+    });
+
+}
+
+
 /**
  * zyb
  */
@@ -454,5 +568,8 @@ rpc.exports = {
     callgetfollowcleanlist: getFollowCleanList,
     callchatinroom: chatInRoom,
     picsearch: picsearch,
+    picsearch1: picsearch1,
+    test1: test1,
+    test2: test2,
 
 };
