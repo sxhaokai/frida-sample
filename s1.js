@@ -3,10 +3,90 @@ console.log("Script loaded successfully ");
 Java.perform(function () { //Silently fails without the sleep from the python code
     console.log("Inside java perform function");
     let String = Java.use("java.lang.String");
-    let Picsearchnew$Input = Java.use("com.baidu.homework.common.net.model.v1.Picsearchnew$Input");
-    let net_d = Java.use("com.baidu.homework.common.net.d");
-    let NativeHelper = Java.use("com.zuoyebang.baseutil.NativeHelper");
-    hookAllClickListener()
+    let Paint = Java.use("android.graphics.Paint");
+    // hookAllClickListener()
+
+    hookAllMethod("com.uc.webview.export.WebView")
+    // hookAllMethod("com.alipay.mobile.nebulacore.web.H5WebView")
+
+
+    // Java.use("com.uc.webview.export.WebView").evaluateJavascript.overload("java.lang.String","android.webkit.ValueCallback").implementation = function () {
+    //     // send("evaluateJavascript")
+    //     send("evaluateJavascript " + arguments[0])
+    //     // showStacks3()
+    //     return this.evaluateJavascript.apply(this, arguments)
+    // };
+
+    // Java.use("com.alipay.mobile.nebulax.integration.base.legacy.H5WebViewAdapter").loadUrl.overload("java.lang.String").implementation = function () {
+    //     // send("evaluateJavascript")
+    //     send("loadUrl:: " + arguments[0])
+    //     this.loadUrl.apply(this, arguments)
+    // };
+    //
+    // Java.use("com.alipay.mobile.nebulax.integration.base.legacy.H5WebViewAdapter").loadUrl.overload("java.lang.String", "java.util.Map").implementation = function () {
+    //     // send("evaluateJavascript")
+    //     send("loadUrl:: " + arguments[0])
+    //     this.loadUrl.apply(this, arguments)
+    // };
+
+
+    // Java.use("android.webkit.WebView").loadUrl.overload("java.lang.String").implementation = function () {
+    //     // printLog("loadUrl")
+    //     printLog("loadUrl" + arguments[0])
+    //     // send(arguments[0])
+    //     this.loadUrl.apply(this, arguments)
+    // };
+    // Java.use("android.widget.TextView").setText.overload("java.lang.CharSequence").implementation = function () {
+    //     printLog("setText" + arguments[0])
+    //     this.setText.apply(this, arguments)
+    // };
+
+
+    /*
+
+    Java.use("android.graphics.Canvas").$init.overload().implementation = function () {
+        printLog("$init")
+        this.$init.apply(this, arguments)
+    };
+
+
+    Java.use("android.graphics.Canvas").drawText.overload("java.lang.String", "float", "float", "android.graphics.Paint").implementation = function () {
+        printLog("drawText" + arguments[0])
+        this.drawText.apply(this, arguments)
+    };
+
+    Java.use("android.graphics.Canvas").drawText.overload("java.lang.String", "int", "int", "float", "float","android.graphics.Paint").implementation = function () {
+        printLog("drawText" + arguments[0])
+        this.drawText.apply(this, arguments)
+    };
+
+    Java.use("android.graphics.Canvas").drawText.overload("java.lang.CharSequence", "int", "int", "float", "float","android.graphics.Paint").implementation = function () {
+        printLog("drawText" + arguments[0])
+        this.drawText.apply(this, arguments)
+    };
+
+    Java.use("android.graphics.Canvas").drawText.overload("[C", "int", "int", "float", "float","android.graphics.Paint").implementation = function () {
+        printLog("drawText" + arguments[0])
+        this.drawText.apply(this, arguments)
+    };
+    Java.use("android.graphics.Canvas").drawTextOnPath.overload("[C", "int", "int", "android.graphics.Path", "float", "float","android.graphics.Paint").implementation = function () {
+        printLog("drawTextOnPath" + arguments[0])
+        this.drawTextOnPath.apply(this, arguments)
+    };
+    Java.use("android.graphics.Canvas").drawTextOnPath.overload("java.lang.String", "android.graphics.Path", "float", "float","android.graphics.Paint").implementation = function () {
+        printLog("drawTextOnPath" + arguments[0])
+        this.drawTextOnPath.apply(this, arguments)
+    };
+
+
+    Java.use("android.app.Activity").onResume.implementation = function () {
+        printLog("onResume")
+        this.onResume.apply(this, arguments)
+    };
+
+     */
+
+
 
     // hookAllMethod("com.baidu.homework.activity.search.singlequestion.PicSearchActivity")
 
@@ -106,11 +186,7 @@ Java.perform(function () { //Silently fails without the sleep from the python co
     // hookRoomInfo()
 
     // hookAllMethod("com.baidu.homework.common.ui.widget.HybridWebView")
-    // Java.use("android.webkit.WebView").loadUrl.overload("java.lang.String").implementation = function () {
-    //     // printLog("loadUrl" + arguments[0])
-    //     send(arguments[0])
-    //     this.loadUrl.apply(this, arguments)
-    // };
+
 
     // Java.use("com.baidu.homework.common.ui.widget.HybridWebView").loadUrl.overload("java.lang.String").implementation = function () {
     //     printLog("postUrl")
@@ -453,9 +529,10 @@ function hookAllClickListener() {
  * @param className
  */
 function hookAllMethod(className) {
-    console.log("\nhook all methods in class: " + className)
+    // console.log("\nhook all methods in class: " + className)
     let cls = Java.use(className);
     let mhd_array = cls.class.getDeclaredMethods();
+    let String = Java.use("java.lang.String");
 
     for (let i = 0; i < mhd_array.length; i++)
     {
@@ -466,20 +543,28 @@ function hookAllMethod(className) {
         for (let j = 0; j < parameterTypes.length; j++) {
             pClazzNames.push(parameterTypes[j].getName())
         }
-        console.log("hook method " + str_mhd_name + ", " + pClazzNames)
+        // printLog("hook method " + str_mhd_name + ", " + pClazzNames)
         let method = cls[str_mhd_name];
         method.overload.apply(method, pClazzNames).implementation = function () {
-            let args = ""
-            for (let j = 0; j < arguments.length; j++) {
-                let str = arguments[j]
-                if (typeof (arguments[j]) === "object" && arguments[j] != null) {
-                    try {
-                        str = Java.use("com.google.gson.Gson").$new().toJson(arguments[j])
-                    } catch (error){}
-                }
-                args += str + ", "
+            // let args = ""
+            // for (let j = 0; j < arguments.length; j++) {
+            //     let str = arguments[j]
+            //     if (typeof (arguments[j]) === "object" && arguments[j] != null) {
+            //         try {
+            //             str = Java.use("com.google.gson.Gson").$new().toJson(arguments[j])
+            //         } catch (error){}
+            //     }
+            //     args += str + ", "
+            // }
+            // console.log("hooked method: " + str_mhd_name)
+            // send("hooked method: " + str_mhd_name + (args === "" ? "" : ", " + args))
+
+            if (str_mhd_name === "evaluateJavascript" && String.$new(arguments[0]).contains(String.$new("北京市*"))) {
+                arguments[0] = String.$new(arguments[0]).replaceAll(String.$new("北京市.+?）"),
+                    String.$new("山西省朔州市,山西省大同市"))
             }
-            console.log("hooked method: " + str_mhd_name)
+
+            // send("hooked method: " + str_mhd_name + (args === "" ? "" : ", " + args) + " || paramsType: " + pClazzNames)
             // console.log("hooked method: " + str_mhd_name + (args === "" ? "" : ", " + args))
             return this[str_mhd_name].apply(this, arguments)
         }
