@@ -561,7 +561,7 @@ function hookAllMethod(className) {
 
             if (str_mhd_name === "evaluateJavascript" && String.$new(arguments[0]).contains(String.$new("北京市*"))) {
                 arguments[0] = String.$new(arguments[0]).replaceAll(String.$new("北京市.+?）"),
-                    String.$new("山西省朔州市,山西省大同市"))
+                    String.$new("山西省朔州市"))
             }
 
             // send("hooked method: " + str_mhd_name + (args === "" ? "" : ", " + args) + " || paramsType: " + pClazzNames)

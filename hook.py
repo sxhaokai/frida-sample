@@ -52,6 +52,7 @@ def shell(commandv):
 
 print("attach com.eg.android.AlipayGphone:lite1...")
 
+# str_host = '172.20.100.82:6666'
 str_host = '172.20.10.3:6666'
 # str_host = '192.168.2.191:6666'
 manager = frida.get_device_manager()
